@@ -31,14 +31,14 @@ export function TupperwareWordmark({
       </text>
       {/* ® superscript */}
       <text
-        x="546"
+        x="548"
         y="18"
-        fontFamily="Arial, sans-serif"
-        fontWeight="500"
-        fontSize="22"
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontWeight="400"
+        fontSize="20"
         fill={color}
       >
-        ®
+        {'\u00AE'}
       </text>
     </svg>
   )
