@@ -14,8 +14,10 @@ export default function Page() {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
-  const [affiliateLink, setAffiliateLink] = useState('')
   const [isDownloading, setIsDownloading] = useState(false)
+
+  // Affiliate link is always derived from ID — never stored separately
+  const affiliateLink = id.length >= 5 && id.length <= 6 ? `https://tupperware-eu.com/?ref=${id}` : ''
 
   // Ref points to the full-size hidden card (not the scaled preview)
   // Auto-detect browser language on mount
@@ -34,7 +36,6 @@ export default function Page() {
       case 'firstName': setFirstName(value); break
       case 'lastName': setLastName(value); break
       case 'photoUrl': setPhotoUrl(value); break
-      case 'affiliateLink': setAffiliateLink(value); break
     }
   }
 

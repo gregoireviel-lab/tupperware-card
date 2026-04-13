@@ -8,7 +8,7 @@ interface CardFormProps {
   firstName: string
   lastName: string
   photoUrl: string
-  affiliateLink: string
+  affiliateLink: string // computed from id, display-only
   t: Translation
   onChange: (field: string, value: string) => void
 }
@@ -23,6 +23,10 @@ export default function CardForm({
   onChange,
 }: CardFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // ID validation: 5–6 digits
+  const idIsValid = id === '' || (/^\d{5,6}$/.test(id))
+  const idTooLong = id.length > 6
 
   function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -52,12 +56,23 @@ export default function CardForm({
         <label className={labelClass}>{t.form.id}</label>
         <input
           type="text"
-          className={inputClass}
+          inputMode="numeric"
+          className={`${inputClass} ${!idIsValid || idTooLong ? 'border-red-400 focus:ring-red-400' : ''}`}
           style={inputStyle}
           value={id}
-          onChange={(e) => onChange('id', e.target.value)}
-          placeholder="ex: 123456"
+          maxLength={6}
+          onChange={(e) => {
+            const val = e.target.value.replace(/\D/g, '').slice(0, 6)
+            onChange('id', val)
+          }}
+          placeholder="ex: 96541"
         />
+        {id.length > 0 && id.length < 5 && (
+          <p className="text-xs text-red-500 mt-1">{id.length}/6 — minimum 5 chiffres</p>
+        )}
+        {id.length >= 5 && id.length <= 6 && affiliateLink && (
+          <p className="text-xs text-zinc-400 mt-1 font-mono break-all">{affiliateLink}</p>
+        )}
       </div>
 
       {/* First name */}
@@ -81,19 +96,6 @@ export default function CardForm({
           style={inputStyle}
           value={lastName}
           onChange={(e) => onChange('lastName', e.target.value)}
-        />
-      </div>
-
-      {/* Affiliate link */}
-      <div>
-        <label className={labelClass}>{t.form.affiliateLink}</label>
-        <input
-          type="url"
-          className={inputClass}
-          style={inputStyle}
-          value={affiliateLink}
-          onChange={(e) => onChange('affiliateLink', e.target.value)}
-          placeholder="https://..."
         />
       </div>
 

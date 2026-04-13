@@ -173,17 +173,18 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
         {/* Circular photo */}
         <div style={{ width: '145px', height: '145px', flexShrink: 0, position: 'relative' }}>
           {photoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={photoUrl}
-              alt="Photo"
+            // Use background-image div instead of <img objectFit=cover>
+            // html2canvas doesn't support object-fit:cover — background-size:cover works correctly
+            <div
               style={{
                 width: '145px',
                 height: '145px',
-                objectFit: 'cover',
                 borderRadius: '50%',
                 border: '2.5px solid rgba(255,255,255,0.45)',
-                display: 'block',
+                backgroundImage: `url(${photoUrl})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                flexShrink: 0,
               }}
             />
           ) : (
