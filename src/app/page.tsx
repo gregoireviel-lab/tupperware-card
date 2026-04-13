@@ -55,10 +55,10 @@ export default function Page() {
   return (
     <>
       {/* ── Main app ── */}
-      <div className="min-h-screen" style={{ backgroundColor: '#004E4B' }}>
+      <div className="min-h-screen bg-zinc-50">
         {/* Header */}
-        <header className="px-6 py-4 flex items-center justify-between" style={{ backgroundColor: '#003B38', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-          <h1 className="text-xl font-bold text-white">{t.ui.title}</h1>
+        <header className="bg-white border-b border-zinc-200 px-6 py-4 flex items-center justify-between">
+          <h1 className="text-xl font-bold text-zinc-800">{t.ui.title}</h1>
           <LanguageSwitcher locale={locale} onChange={setLocale} />
         </header>
 
@@ -66,8 +66,8 @@ export default function Page() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
 
             {/* Left: Form */}
-            <div className="rounded-2xl p-6" style={{ backgroundColor: '#005F5C', border: '1px solid rgba(255,255,255,0.12)' }}>
-              <h2 className="text-base font-semibold text-white mb-5" style={{ opacity: 0.85 }}>Informations</h2>
+            <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-6">
+              <h2 className="text-base font-semibold text-zinc-700 mb-5">Informations</h2>
               <CardForm
                 id={id}
                 firstName={firstName}
@@ -82,7 +82,7 @@ export default function Page() {
             {/* Right: Preview + actions */}
             <div className="flex flex-col gap-5">
               <div>
-                <h2 className="text-base font-semibold text-white mb-4" style={{ opacity: 0.85 }}>{t.ui.preview}</h2>
+                <h2 className="text-base font-semibold text-zinc-700 mb-4">{t.ui.preview}</h2>
                 {/* Scaled visual preview */}
                 <div style={{ width: previewW, height: previewH, position: 'relative', overflow: 'hidden' }}>
                   <div
