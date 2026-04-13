@@ -1,6 +1,50 @@
 @import "tailwindcss";
 
+/* Hidden in normal view */
+.print-only {
+  display: none;
+}
+.print-grid {
+  display: none;
+}
+
 @media print {
-  body > * { display: none !important; }
-  #print-sheet { display: block !important; }
+  /* Hide everything except the print sheet */
+  body > * {
+    display: none !important;
+  }
+  #print-sheet {
+    display: block !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  /* 2×5 grid of cards on A4 */
+  .print-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 85mm);
+    gap: 5mm;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .print-card-slot {
+    width: 85mm;
+    height: 54mm;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /*
+   * Scale the 684×432px card down to fit 85mm×54mm slot.
+   * At 96dpi: 85mm = 321.26px → scale = 321.26 / 684 = 0.4697
+   */
+  .print-card-slot .business-card-root {
+    transform: scale(0.4697) !important;
+    transform-origin: top left !important;
+    box-shadow: none !important;
+  }
 }

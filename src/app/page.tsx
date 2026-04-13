@@ -80,24 +80,21 @@ export default function Page() {
                 {t.ui.preview}
               </h2>
               {/* Scaling wrapper: card is 680px wide, we display it scaled */}
-              <div
-                style={{
-                  width: '100%',
-                  maxWidth: '680px',
-                }}
-              >
+              {/* Card is 684×432px, displayed at 75% = 513×324px */}
+              <div style={{ width: '513px', height: '324px', position: 'relative' }}>
                 <div
                   style={{
                     transform: 'scale(0.75)',
                     transformOrigin: 'top left',
-                    width: '680px',
+                    width: '684px',
                     height: '432px',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
                   }}
                 >
                   <BusinessCard ref={cardRef} {...cardProps} />
                 </div>
-                {/* Spacer to account for the transform scale */}
-                <div style={{ height: `${432 * 0.75}px`, marginTop: '-432px' }} />
               </div>
             </div>
 
@@ -121,8 +118,8 @@ export default function Page() {
         </div>
       </main>
 
-      {/* Print sheet — hidden in normal view, shown only during print */}
-      <div id="print-sheet" style={{ display: 'none' }}>
+      {/* Print sheet — hidden via class (CSS can override), shown only during print */}
+      <div id="print-sheet" className="print-only">
         <PrintSheet cardProps={cardProps} />
       </div>
     </div>
