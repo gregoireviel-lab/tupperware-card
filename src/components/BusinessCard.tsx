@@ -163,27 +163,35 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
           zIndex: 1,
         }}
       >
-        {/* Circular photo */}
-        <div
-          style={{
-            width: '145px',
-            height: '145px',
-            borderRadius: '50%',
-            overflow: 'hidden',
-            flexShrink: 0,
-            border: '2.5px solid rgba(255,255,255,0.45)',
-            backgroundColor: 'rgba(255,255,255,0.1)',
-          }}
-        >
+        {/* Circular photo — border-radius directly on img for html2canvas compat */}
+        <div style={{ width: '145px', height: '145px', flexShrink: 0, position: 'relative' }}>
           {photoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={photoUrl}
               alt="Photo"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{
+                width: '145px',
+                height: '145px',
+                objectFit: 'cover',
+                borderRadius: '50%',
+                border: '2.5px solid rgba(255,255,255,0.45)',
+                display: 'block',
+              }}
             />
           ) : (
-            <PersonSilhouette />
+            <div
+              style={{
+                width: '145px',
+                height: '145px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: '2.5px solid rgba(255,255,255,0.45)',
+                backgroundColor: 'rgba(255,255,255,0.1)',
+              }}
+            >
+              <PersonSilhouette />
+            </div>
           )}
         </div>
 

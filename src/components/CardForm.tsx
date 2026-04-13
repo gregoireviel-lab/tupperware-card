@@ -34,9 +34,16 @@ export default function CardForm({
     reader.readAsDataURL(file)
   }
 
+  function handleRemovePhoto() {
+    onChange('photoUrl', '')
+    // Reset input so the same file can be re-selected
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
   const inputClass =
-    'w-full px-3 py-2 rounded-lg bg-white border border-zinc-300 text-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400'
-  const labelClass = 'block text-sm font-medium text-zinc-700 mb-1'
+    'w-full px-3 py-2 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-teal-300 placeholder:text-white/40'
+  const inputStyle = { backgroundColor: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }
+  const labelClass = 'block text-sm font-medium text-white/80 mb-1'
 
   return (
     <div className="flex flex-col gap-5">
@@ -46,6 +53,7 @@ export default function CardForm({
         <input
           type="text"
           className={inputClass}
+          style={inputStyle}
           value={id}
           onChange={(e) => onChange('id', e.target.value)}
           placeholder="ex: 123456"
@@ -58,6 +66,7 @@ export default function CardForm({
         <input
           type="text"
           className={inputClass}
+          style={inputStyle}
           value={firstName}
           onChange={(e) => onChange('firstName', e.target.value)}
         />
@@ -69,6 +78,7 @@ export default function CardForm({
         <input
           type="text"
           className={inputClass}
+          style={inputStyle}
           value={lastName}
           onChange={(e) => onChange('lastName', e.target.value)}
         />
@@ -80,6 +90,7 @@ export default function CardForm({
         <input
           type="url"
           className={inputClass}
+          style={inputStyle}
           value={affiliateLink}
           onChange={(e) => onChange('affiliateLink', e.target.value)}
           placeholder="https://..."
@@ -108,8 +119,9 @@ export default function CardForm({
           {photoUrl && (
             <button
               type="button"
-              onClick={() => onChange('photoUrl', '')}
-              className="px-3 py-2 bg-zinc-200 hover:bg-zinc-300 text-zinc-700 text-sm rounded-lg transition-colors"
+              onClick={handleRemovePhoto}
+              className="px-3 py-2 text-white/70 hover:text-white text-sm rounded-lg transition-colors"
+              style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}
             >
               ✕
             </button>

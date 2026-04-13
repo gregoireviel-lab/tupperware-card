@@ -23,9 +23,10 @@ export default function LanguageSwitcher({ locale, onChange }: LanguageSwitcherP
           onClick={() => onChange(l.code)}
           className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors ${
             locale === l.code
-              ? 'bg-teal-500 text-white'
-              : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+              ? 'text-white'
+              : 'text-white/50 hover:text-white/80'
           }`}
+          style={locale === l.code ? { backgroundColor: 'rgba(255,255,255,0.2)' } : {}}
         >
           {l.label}
         </button>

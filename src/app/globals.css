@@ -8,6 +8,12 @@
   display: none;
 }
 
+/* Force background colors to print */
+.business-card-root {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
 @media print {
   /* Hide everything except the print sheet */
   body > * {
@@ -20,6 +26,12 @@
   @page {
     size: A4 portrait;
     margin: 10mm;
+  }
+
+  /* Force all backgrounds to print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* 2×5 grid of cards on A4 */
