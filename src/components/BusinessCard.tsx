@@ -114,18 +114,24 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
 
       {/* Top: Official Tupperware® wordmark PNG — blends with card bg */}
       <div style={{ marginBottom: '10px', paddingRight: '165px', zIndex: 1 }}>
-        {/* Wordmark image: crop to text only using object-fit + fixed height */}
-        <div style={{ height: '44px', width: '240px', overflow: 'hidden', position: 'relative' }}>
+        {/*
+          Image: 5120×2832px. Text occupies roughly x:1100-4100, y:1050-1750 (3000×700px).
+          Target height: 44px → scale = 44/700 = 0.0629
+          Scaled image: 322×178px. Text starts at top=66px, left=69px in scaled image.
+          Container 220×44px clips to just the wordmark.
+        */}
+        <div style={{ height: '44px', width: '220px', overflow: 'hidden', position: 'relative' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/TUPPERWARE_SHARING_IMAGE.webp"
             alt="Tupperware"
             style={{
               position: 'absolute',
-              height: '180px',
-              width: 'auto',
-              top: '-68px',
-              left: '-20px',
+              width: '322px',
+              height: '178px',
+              maxWidth: 'none',
+              top: '-66px',
+              left: '-69px',
             }}
           />
         </div>
@@ -246,7 +252,12 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
         >
           {t.card.legalText}
         </p>
-        {/* Official T™ badge — background matches card so it blends */}
+        {/*
+          T badge: 906×888px — nearly square, T icon centered.
+          object-fit:cover at 58×58 → scale = 58/888 ≈ 0.065 (height)
+          At that scale width = 906*0.065 = 59px → tiny horizontal crop, well centered.
+          objectPosition '50% 44%' centers slightly above mid to hit the T.
+        */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/66ed2894f62485f989a36775_CRU_Blog_Tupperware_Thumb.jpg"
@@ -255,7 +266,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
             width: '58px',
             height: '58px',
             objectFit: 'cover',
-            objectPosition: '50% 45%',
+            objectPosition: '50% 44%',
             borderRadius: '10px',
             flexShrink: 0,
             display: 'block',
