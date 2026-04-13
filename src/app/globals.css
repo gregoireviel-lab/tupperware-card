@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@media print {
+  body > * { display: none !important; }
+  #print-sheet { display: block !important; }
+}
