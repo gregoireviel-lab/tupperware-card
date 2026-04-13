@@ -40,8 +40,8 @@ export const CARD_W = 684
 export const CARD_H = 432
 const QR_SIZE = 118
 
-// Exact background of the official logos → card blends seamlessly
-const CARD_BG = '#005F5C'
+// Exact background color sampled from the official wordmark PNG (#14524f)
+const CARD_BG = '#14524f'
 
 const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard(
   { id, firstName, lastName, photoUrl, affiliateLink, t },
@@ -115,23 +115,24 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
       {/* Top: Official Tupperware® wordmark PNG — blends with card bg */}
       <div style={{ marginBottom: '10px', paddingRight: '165px', zIndex: 1 }}>
         {/*
-          Image: 5120×2832px. Text occupies roughly x:1100-4100, y:1050-1750 (3000×700px).
-          Target height: 44px → scale = 44/700 = 0.0629
-          Scaled image: 322×178px. Text starts at top=66px, left=69px in scaled image.
-          Container 220×44px clips to just the wordmark.
+          Image: 5120×2832px. White text (wordmark) confirmed at x:1000-4000, y:1250-1650.
+          Show region x:900-4100, y:1100-1700 (3200×600px) with padding around text.
+          Scale = 48/600 = 0.08 → rendered image: 410×226px
+          Offset: top = -(1100×0.08) = -88px, left = -(900×0.08) = -72px
+          Container 260×48px clips to exactly the wordmark area.
         */}
-        <div style={{ height: '44px', width: '220px', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ height: '48px', width: '260px', overflow: 'hidden', position: 'relative' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/TUPPERWARE_SHARING_IMAGE.webp"
             alt="Tupperware"
             style={{
               position: 'absolute',
-              width: '322px',
-              height: '178px',
+              width: '410px',
+              height: '226px',
               maxWidth: 'none',
-              top: '-66px',
-              left: '-69px',
+              top: '-88px',
+              left: '-72px',
             }}
           />
         </div>

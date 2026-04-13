@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import BusinessCard, { CARD_W, CARD_H } from '@/components/BusinessCard'
 import CardForm from '@/components/CardForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
@@ -9,7 +9,7 @@ import { translations, type Locale } from '@/lib/translations'
 import { downloadCardAsPDF } from '@/lib/downloadCard'
 
 export default function Page() {
-  const [locale, setLocale] = useState<Locale>('it')
+  const [locale, setLocale] = useState<Locale>('it') // default overridden by browser lang on mount
   const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -18,6 +18,13 @@ export default function Page() {
   const [isDownloading, setIsDownloading] = useState(false)
 
   // Ref points to the full-size hidden card (not the scaled preview)
+  // Auto-detect browser language on mount
+  useEffect(() => {
+    const lang = navigator.language.split('-')[0].toLowerCase()
+    const supported = ['fr', 'it', 'de', 'en'] as Locale[]
+    setLocale(supported.includes(lang as Locale) ? (lang as Locale) : 'en')
+  }, [])
+
   const cardRef = useRef<HTMLDivElement>(null)
   const t = translations[locale]
 
