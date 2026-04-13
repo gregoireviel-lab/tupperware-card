@@ -3,6 +3,8 @@
 import React, { forwardRef } from 'react'
 import { QRCodeSVG } from 'qrcode.react'
 import type { Translation } from '@/lib/translations'
+import { TupperwareWordmark } from './logos/TupperwareWordmark'
+import { TupperwareTIcon } from './logos/TupperwareTIcon'
 
 export interface CardProps {
   id: string
@@ -28,9 +30,9 @@ const PersonSilhouette = () => (
     xmlns="http://www.w3.org/2000/svg"
     style={{ display: 'block' }}
   >
-    <circle cx="50" cy="50" r="50" fill="#7eccc8" />
-    <circle cx="50" cy="36" r="18" fill="#b0dedd" />
-    <ellipse cx="50" cy="85" rx="28" ry="22" fill="#b0dedd" />
+    <circle cx="50" cy="50" r="50" fill="rgba(255,255,255,0.15)" />
+    <circle cx="50" cy="36" r="18" fill="rgba(255,255,255,0.35)" />
+    <ellipse cx="50" cy="85" rx="28" ry="22" fill="rgba(255,255,255,0.35)" />
   </svg>
 )
 
@@ -39,6 +41,10 @@ const PersonSilhouette = () => (
 export const CARD_W = 684
 export const CARD_H = 432
 const QR_SIZE = 118
+
+// Brand colors from Tupperware identity
+const CARD_BG = '#007C78'        // medium-dark teal (card background)
+const CARD_BG_DARK = '#005F5C'   // dark teal (T icon background)
 
 const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard(
   { id, firstName, lastName, photoUrl, affiliateLink, t },
@@ -55,19 +61,29 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
       style={{
         width: `${CARD_W}px`,
         height: `${CARD_H}px`,
-        backgroundColor: '#5BB5B0',
-        borderRadius: '16px',
+        backgroundColor: CARD_BG,
+        borderRadius: '18px',
         position: 'relative',
         overflow: 'hidden',
-        fontFamily: 'Arial, Helvetica, sans-serif',
+        fontFamily: "'Trebuchet MS', Arial, Helvetica, sans-serif",
         color: 'white',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
         display: 'flex',
         flexDirection: 'column',
         padding: '24px 28px 18px 28px',
         boxSizing: 'border-box',
       }}
     >
+      {/* Subtle gradient overlay for depth */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0.06) 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
       {/* QR code — absolute top-right */}
       <div
         style={{
@@ -93,14 +109,14 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
             style={{
               width: `${QR_SIZE + 16}px`,
               height: `${QR_SIZE + 16}px`,
-              backgroundColor: 'rgba(255,255,255,0.15)',
+              backgroundColor: 'rgba(255,255,255,0.12)',
               borderRadius: '10px',
-              border: '2px dashed rgba(255,255,255,0.4)',
+              border: '2px dashed rgba(255,255,255,0.35)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '0.7rem',
-              color: 'rgba(255,255,255,0.6)',
+              fontSize: '0.65rem',
+              color: 'rgba(255,255,255,0.55)',
               textAlign: 'center' as const,
             }}
           >
@@ -109,64 +125,42 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
         )}
       </div>
 
-      {/* Top section: brand (leave right space for QR) */}
-      <div style={{ marginBottom: '16px', paddingRight: '160px' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-          <span
-            style={{
-              fontSize: '2.1rem',
-              fontWeight: 900,
-              color: 'white',
-              letterSpacing: '-1px',
-              lineHeight: 1,
-            }}
-          >
-            Tupperware
-          </span>
-          <sup
-            style={{
-              fontSize: '0.9rem',
-              fontWeight: 700,
-              color: 'white',
-              marginTop: '4px',
-              marginLeft: '2px',
-            }}
-          >
-            ®
-          </sup>
-        </div>
+      {/* Top: Tupperware wordmark + subtitle */}
+      <div style={{ marginBottom: '14px', paddingRight: '165px', zIndex: 1 }}>
+        <TupperwareWordmark color="white" width={210} />
         <div
           style={{
-            fontSize: '0.7rem',
+            fontSize: '0.65rem',
             fontVariant: 'small-caps',
-            color: 'rgba(255,255,255,0.85)',
-            letterSpacing: '3px',
-            marginTop: '2px',
-            marginLeft: '2px',
+            color: 'rgba(255,255,255,0.75)',
+            letterSpacing: '2px',
+            marginTop: '3px',
+            marginLeft: '1px',
           }}
         >
           {t.card.brand}
         </div>
         <div
           style={{
-            fontSize: '0.7rem',
+            fontSize: '0.68rem',
             fontStyle: 'italic',
-            color: 'rgba(255,255,255,0.9)',
-            marginTop: '6px',
+            color: 'rgba(255,255,255,0.88)',
+            marginTop: '5px',
           }}
         >
           {t.card.subtitle}
         </div>
       </div>
 
-      {/* Middle section: photo + fields (padded right to avoid QR overlap) */}
+      {/* Middle: photo + fields (right-padded to avoid QR overlap) */}
       <div
         style={{
           display: 'flex',
           flex: 1,
           alignItems: 'center',
-          gap: '28px',
-          paddingRight: '160px',
+          gap: '26px',
+          paddingRight: '165px',
+          zIndex: 1,
         }}
       >
         {/* Circular photo */}
@@ -177,8 +171,8 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
             borderRadius: '50%',
             overflow: 'hidden',
             flexShrink: 0,
-            border: '3px solid rgba(255,255,255,0.5)',
-            backgroundColor: '#4aa5a0',
+            border: '2.5px solid rgba(255,255,255,0.45)',
+            backgroundColor: 'rgba(255,255,255,0.1)',
           }}
         >
           {photoUrl ? (
@@ -193,27 +187,27 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
           )}
         </div>
 
-        {/* Fields + dates stacked */}
+        {/* Fields + dates */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'baseline' }}>
-            <span style={{ fontWeight: 700, fontSize: '1.2rem', minWidth: '120px' }}>
+            <span style={{ fontWeight: 700, fontSize: '1.2rem', minWidth: '115px' }}>
               {t.card.id}
             </span>
             <span style={{ fontSize: '1.2rem' }}>{id || '—'}</span>
           </div>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'baseline' }}>
-            <span style={{ fontWeight: 700, fontSize: '1.2rem', minWidth: '120px' }}>
+            <span style={{ fontWeight: 700, fontSize: '1.2rem', minWidth: '115px' }}>
               {t.card.firstName}
             </span>
             <span style={{ fontSize: '1.2rem' }}>{firstName || '—'}</span>
           </div>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'baseline' }}>
-            <span style={{ fontWeight: 700, fontSize: '1.2rem', minWidth: '120px' }}>
+            <span style={{ fontWeight: 700, fontSize: '1.2rem', minWidth: '115px' }}>
               {t.card.lastName}
             </span>
             <span style={{ fontSize: '1.2rem' }}>{lastName || '—'}</span>
           </div>
-          {/* Dates inline below the name fields — no visual gap */}
+          {/* Dates — stacked directly below name fields */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '4px', fontSize: '0.82rem' }}>
             <div>
               <span style={{ fontWeight: 700 }}>{t.card.issuedOn} </span>
@@ -227,53 +221,32 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
         </div>
       </div>
 
-      {/* Bottom: legal text + T logo */}
+      {/* Bottom: legal text + T icon */}
       <div
         style={{
           display: 'flex',
           alignItems: 'flex-end',
           justifyContent: 'space-between',
-          gap: '16px',
+          gap: '12px',
           marginTop: '10px',
+          zIndex: 1,
         }}
       >
         <p
           style={{
-            fontSize: '0.58rem',
+            fontSize: '0.55rem',
             fontStyle: 'italic',
             textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.8)',
+            color: 'rgba(255,255,255,0.75)',
             margin: 0,
-            lineHeight: 1.4,
+            lineHeight: 1.45,
             flex: 1,
           }}
         >
           {t.card.legalText}
         </p>
-        <div
-          style={{
-            width: '46px',
-            height: '46px',
-            backgroundColor: '#2D8A86',
-            borderRadius: '10px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-          }}
-        >
-          <span
-            style={{
-              color: 'white',
-              fontWeight: 900,
-              fontSize: '1.8rem',
-              lineHeight: 1,
-              fontFamily: 'Georgia, serif',
-            }}
-          >
-            T
-          </span>
-        </div>
+        {/* Official T brand mark */}
+        <TupperwareTIcon size={46} bgColor={CARD_BG_DARK} markColor="#40D8C8" />
       </div>
     </div>
   )
