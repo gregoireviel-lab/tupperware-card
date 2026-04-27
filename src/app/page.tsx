@@ -13,6 +13,8 @@ export default function Page() {
   const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
   const [isDownloading, setIsDownloading] = useState(false)
 
@@ -35,6 +37,8 @@ export default function Page() {
       case 'id': setId(value); break
       case 'firstName': setFirstName(value); break
       case 'lastName': setLastName(value); break
+      case 'phone': setPhone(value); break
+      case 'email': setEmail(value); break
       case 'photoUrl': setPhotoUrl(value); break
     }
   }
@@ -53,7 +57,7 @@ export default function Page() {
     window.print()
   }
 
-  const cardProps = { id, firstName, lastName, photoUrl, affiliateLink, t }
+  const cardProps = { id, firstName, lastName, phone, email, photoUrl, affiliateLink, t }
 
   // Preview scale: display card at 75% of its native size
   const scale = 0.75
@@ -80,6 +84,8 @@ export default function Page() {
                 id={id}
                 firstName={firstName}
                 lastName={lastName}
+                phone={phone}
+                email={email}
                 photoUrl={photoUrl}
                 affiliateLink={affiliateLink}
                 t={t}
@@ -105,7 +111,7 @@ export default function Page() {
                     }}
                   >
                     {/* Visual-only clone (no ref) */}
-                    <BusinessCard id={id} firstName={firstName} lastName={lastName} photoUrl={photoUrl} affiliateLink={affiliateLink} t={t} />
+                    <BusinessCard {...cardProps} />
                   </div>
                 </div>
               </div>

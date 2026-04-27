@@ -7,6 +7,8 @@ interface CardFormProps {
   id: string
   firstName: string
   lastName: string
+  phone: string
+  email: string
   photoUrl: string
   affiliateLink: string // computed from id, display-only
   t: Translation
@@ -17,6 +19,8 @@ export default function CardForm({
   id,
   firstName,
   lastName,
+  phone,
+  email,
   photoUrl,
   affiliateLink,
   t,
@@ -99,9 +103,41 @@ export default function CardForm({
         />
       </div>
 
-      {/* Photo upload */}
+      {/* Phone (optional) */}
       <div>
-        <label className={labelClass}>{t.form.photo}</label>
+        <label className={labelClass}>
+          {t.form.phone} <span className="text-zinc-400 font-normal">({t.form.optional})</span>
+        </label>
+        <input
+          type="tel"
+          className={inputClass}
+          style={inputStyle}
+          value={phone}
+          onChange={(e) => onChange('phone', e.target.value)}
+          placeholder="+32 470 12 34 56"
+        />
+      </div>
+
+      {/* Email (optional) */}
+      <div>
+        <label className={labelClass}>
+          {t.form.email} <span className="text-zinc-400 font-normal">({t.form.optional})</span>
+        </label>
+        <input
+          type="email"
+          className={inputClass}
+          style={inputStyle}
+          value={email}
+          onChange={(e) => onChange('email', e.target.value)}
+          placeholder="prenom.nom@example.com"
+        />
+      </div>
+
+      {/* Photo upload (optional) */}
+      <div>
+        <label className={labelClass}>
+          {t.form.photo} <span className="text-zinc-400 font-normal">({t.form.optional})</span>
+        </label>
         <div className="flex items-center gap-3">
           {photoUrl && (
             // eslint-disable-next-line @next/next/no-img-element

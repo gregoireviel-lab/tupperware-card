@@ -12,6 +12,9 @@ export interface Translation {
     id: string
     firstName: string
     lastName: string
+    phone: string
+    email: string
+    optional: string
     affiliateLink: string
     photo: string
     uploadPhoto: string
@@ -42,6 +45,9 @@ export const translations: Record<Locale, Translation> = {
       id: 'Identifiant',
       firstName: 'Prénom',
       lastName: 'Nom',
+      phone: 'Téléphone',
+      email: 'Email',
+      optional: 'optionnel',
       affiliateLink: 'Lien affilié',
       photo: 'Photo',
       uploadPhoto: 'Choisir une photo',
@@ -71,6 +77,9 @@ export const translations: Record<Locale, Translation> = {
       id: 'Identificativo',
       firstName: 'Nome',
       lastName: 'Cognome',
+      phone: 'Telefono',
+      email: 'Email',
+      optional: 'opzionale',
       affiliateLink: 'Link affiliato',
       photo: 'Foto',
       uploadPhoto: 'Carica foto',
@@ -100,6 +109,9 @@ export const translations: Record<Locale, Translation> = {
       id: 'Kennung',
       firstName: 'Vorname',
       lastName: 'Nachname',
+      phone: 'Telefon',
+      email: 'E-Mail',
+      optional: 'optional',
       affiliateLink: 'Affiliate-Link',
       photo: 'Foto',
       uploadPhoto: 'Foto hochladen',
@@ -129,6 +141,9 @@ export const translations: Record<Locale, Translation> = {
       id: 'ID',
       firstName: 'First Name',
       lastName: 'Last Name',
+      phone: 'Phone',
+      email: 'Email',
+      optional: 'optional',
       affiliateLink: 'Affiliate Link',
       photo: 'Photo',
       uploadPhoto: 'Upload Photo',
