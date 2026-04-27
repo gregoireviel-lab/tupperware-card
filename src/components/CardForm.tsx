@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react'
 import type { Translation } from '@/lib/translations'
+import type { Orientation } from '@/components/BusinessCard'
 
 interface CardFormProps {
   id: string
@@ -11,8 +12,10 @@ interface CardFormProps {
   email: string
   photoUrl: string
   affiliateLink: string // computed from id, display-only
+  orientation: Orientation
   t: Translation
   onChange: (field: string, value: string) => void
+  onOrientationChange: (o: Orientation) => void
 }
 
 export default function CardForm({
@@ -23,8 +26,10 @@ export default function CardForm({
   email,
   photoUrl,
   affiliateLink,
+  orientation,
   t,
   onChange,
+  onOrientationChange,
 }: CardFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -55,6 +60,27 @@ export default function CardForm({
 
   return (
     <div className="flex flex-col gap-5">
+      {/* Orientation toggle */}
+      <div>
+        <label className={labelClass}>{t.form.orientation}</label>
+        <div className="grid grid-cols-2 gap-2">
+          {(['landscape', 'portrait'] as const).map((o) => (
+            <button
+              key={o}
+              type="button"
+              onClick={() => onOrientationChange(o)}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors border ${
+                orientation === o
+                  ? 'bg-teal-600 text-white border-teal-600'
+                  : 'bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50'
+              }`}
+            >
+              {t.form[o]}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* ID */}
       <div>
         <label className={labelClass}>{t.form.id}</label>

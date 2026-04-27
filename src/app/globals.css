@@ -34,28 +34,44 @@
     print-color-adjust: exact !important;
   }
 
-  /* 2×5 grid of cards on A4 */
-  .print-grid {
+  /* Landscape: 2×5 grid (85mm × 54mm) */
+  #print-sheet[data-orientation="landscape"] .print-grid {
     display: grid !important;
     grid-template-columns: repeat(2, 85mm);
     gap: 5mm;
     width: fit-content;
     margin: 0 auto;
   }
-
-  .print-card-slot {
+  #print-sheet[data-orientation="landscape"] .print-card-slot {
     width: 85mm;
     height: 54mm;
     overflow: hidden;
     position: relative;
   }
-
-  /*
-   * Scale the 684×432px card down to fit 85mm×54mm slot.
-   * At 96dpi: 85mm = 321.26px → scale = 321.26 / 684 = 0.4697
-   */
-  .print-card-slot .business-card-root {
+  /* 684px → 85mm @ 96dpi: scale = 321.26 / 684 = 0.4697 */
+  #print-sheet[data-orientation="landscape"] .print-card-slot .business-card-root {
     transform: scale(0.4697) !important;
+    transform-origin: top left !important;
+    box-shadow: none !important;
+  }
+
+  /* Portrait: 3×3 grid (54mm × 85mm) */
+  #print-sheet[data-orientation="portrait"] .print-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 54mm);
+    gap: 5mm;
+    width: fit-content;
+    margin: 0 auto;
+  }
+  #print-sheet[data-orientation="portrait"] .print-card-slot {
+    width: 54mm;
+    height: 85mm;
+    overflow: hidden;
+    position: relative;
+  }
+  /* 432px → 54mm @ 96dpi: scale = 204.09 / 432 = 0.4724 */
+  #print-sheet[data-orientation="portrait"] .print-card-slot .business-card-root {
+    transform: scale(0.4724) !important;
     transform-origin: top left !important;
     box-shadow: none !important;
   }

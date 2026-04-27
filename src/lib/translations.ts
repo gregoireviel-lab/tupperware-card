@@ -18,6 +18,9 @@ export interface Translation {
     affiliateLink: string
     photo: string
     uploadPhoto: string
+    orientation: string
+    landscape: string
+    portrait: string
   }
   card: {
     id: string
@@ -51,6 +54,9 @@ export const translations: Record<Locale, Translation> = {
       affiliateLink: 'Lien affilié',
       photo: 'Photo',
       uploadPhoto: 'Choisir une photo',
+      orientation: 'Format',
+      landscape: 'Paysage',
+      portrait: 'Portrait',
     },
     card: {
       id: 'ID :',
@@ -83,6 +89,9 @@ export const translations: Record<Locale, Translation> = {
       affiliateLink: 'Link affiliato',
       photo: 'Foto',
       uploadPhoto: 'Carica foto',
+      orientation: 'Formato',
+      landscape: 'Orizzontale',
+      portrait: 'Verticale',
     },
     card: {
       id: 'ID :',
@@ -115,6 +124,9 @@ export const translations: Record<Locale, Translation> = {
       affiliateLink: 'Affiliate-Link',
       photo: 'Foto',
       uploadPhoto: 'Foto hochladen',
+      orientation: 'Format',
+      landscape: 'Querformat',
+      portrait: 'Hochformat',
     },
     card: {
       id: 'ID :',
@@ -147,6 +159,9 @@ export const translations: Record<Locale, Translation> = {
       affiliateLink: 'Affiliate Link',
       photo: 'Photo',
       uploadPhoto: 'Upload Photo',
+      orientation: 'Format',
+      landscape: 'Landscape',
+      portrait: 'Portrait',
     },
     card: {
       id: 'ID :',

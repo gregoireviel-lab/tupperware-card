@@ -1,6 +1,15 @@
-import { CARD_W, CARD_H } from '@/components/BusinessCard'
+import {
+  CARD_W_LANDSCAPE,
+  CARD_H_LANDSCAPE,
+  CARD_W_PORTRAIT,
+  CARD_H_PORTRAIT,
+  type Orientation,
+} from '@/components/BusinessCard'
 
-export async function downloadCardAsPDF(element: HTMLDivElement): Promise<void> {
+export async function downloadCardAsPDF(
+  element: HTMLDivElement,
+  orientation: Orientation
+): Promise<void> {
   // Dynamic imports to avoid SSR issues
   const html2canvas = (await import('html2canvas')).default
   const { default: jsPDF } = await import('jspdf')
@@ -9,24 +18,30 @@ export async function downloadCardAsPDF(element: HTMLDivElement): Promise<void> 
   await document.fonts.ready
   await new Promise((r) => setTimeout(r, 120))
 
+  const isPortrait = orientation === 'portrait'
+  const pxW = isPortrait ? CARD_W_PORTRAIT : CARD_W_LANDSCAPE
+  const pxH = isPortrait ? CARD_H_PORTRAIT : CARD_H_LANDSCAPE
+  // Standard credit card: 85.6mm × 54mm — swap when portrait
+  const mmW = isPortrait ? 54 : 85.6
+  const mmH = isPortrait ? 85.6 : 54
+
   const canvas = await html2canvas(element, {
     scale: 2,
     useCORS: true,
     allowTaint: true,
     backgroundColor: null,
-    width: CARD_W,
-    height: CARD_H,
+    width: pxW,
+    height: pxH,
     logging: false,
   })
 
   const imgData = canvas.toDataURL('image/png')
 
-  // Exact credit card standard: 85.6mm × 54mm
   const pdf = new jsPDF({
-    orientation: 'landscape',
+    orientation: isPortrait ? 'portrait' : 'landscape',
     unit: 'mm',
-    format: [85.6, 54],
+    format: [mmW, mmH],
   })
-  pdf.addImage(imgData, 'PNG', 0, 0, 85.6, 54)
+  pdf.addImage(imgData, 'PNG', 0, 0, mmW, mmH)
   pdf.save('tupperware-card.pdf')
 }

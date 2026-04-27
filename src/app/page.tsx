@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import BusinessCard, { CARD_W, CARD_H } from '@/components/BusinessCard'
+import BusinessCard, { getCardSize, type Orientation } from '@/components/BusinessCard'
 import CardForm from '@/components/CardForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import PrintSheet from '@/components/PrintSheet'
@@ -16,6 +16,7 @@ export default function Page() {
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
+  const [orientation, setOrientation] = useState<Orientation>('landscape')
   const [isDownloading, setIsDownloading] = useState(false)
 
   // Affiliate link is always derived from ID — never stored separately
@@ -47,7 +48,7 @@ export default function Page() {
     if (!cardRef.current) return
     setIsDownloading(true)
     try {
-      await downloadCardAsPDF(cardRef.current)
+      await downloadCardAsPDF(cardRef.current, orientation)
     } finally {
       setIsDownloading(false)
     }
@@ -57,12 +58,13 @@ export default function Page() {
     window.print()
   }
 
-  const cardProps = { id, firstName, lastName, phone, email, photoUrl, affiliateLink, t }
+  const cardProps = { id, firstName, lastName, phone, email, photoUrl, affiliateLink, orientation, t }
 
   // Preview scale: display card at 75% of its native size
   const scale = 0.75
-  const previewW = Math.round(CARD_W * scale)
-  const previewH = Math.round(CARD_H * scale)
+  const { width: cardW, height: cardH } = getCardSize(orientation)
+  const previewW = Math.round(cardW * scale)
+  const previewH = Math.round(cardH * scale)
 
   return (
     <>
@@ -88,8 +90,10 @@ export default function Page() {
                 email={email}
                 photoUrl={photoUrl}
                 affiliateLink={affiliateLink}
+                orientation={orientation}
                 t={t}
                 onChange={handleChange}
+                onOrientationChange={setOrientation}
               />
             </div>
 
@@ -103,8 +107,8 @@ export default function Page() {
                     style={{
                       transform: `scale(${scale})`,
                       transformOrigin: 'top left',
-                      width: CARD_W,
-                      height: CARD_H,
+                      width: cardW,
+                      height: cardH,
                       position: 'absolute',
                       top: 0,
                       left: 0,
@@ -160,7 +164,7 @@ export default function Page() {
        * "body > * { display:none }" print rule would hide its parent first,
        * making #print-sheet invisible even with display:block !important.
        */}
-      <div id="print-sheet" className="print-only">
+      <div id="print-sheet" className="print-only" data-orientation={orientation}>
         <PrintSheet cardProps={cardProps} />
       </div>
     </>
