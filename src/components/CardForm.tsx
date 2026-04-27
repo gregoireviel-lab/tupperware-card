@@ -194,7 +194,7 @@ export default function CardForm({
             inputMode="numeric"
             className={`${inputClass} flex-1`}
             value={formatPhoneLocal(phoneLocal)}
-            onChange={(e) => onChange('phoneLocal', e.target.value.replace(/\D/g, ''))}
+            onChange={(e) => onChange('phoneLocal', e.target.value.replace(/\D/g, '').slice(0, 12))}
             placeholder="470 12 34 56"
           />
         </div>
