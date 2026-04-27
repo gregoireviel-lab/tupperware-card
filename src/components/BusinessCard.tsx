@@ -151,13 +151,8 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
   const isPortrait = orientation === 'portrait'
   const tk = getThemeTokens(theme)
 
-  // For portrait: recto = rotated logo only, verso = info card
-  // For landscape: recto = info card, verso = centered logo
-  const isInfoSide = isPortrait ? side === 'back' : side === 'front'
-  const isLogoSide = !isInfoSide
-
-  // ─── LOGO-ONLY SIDE ───
-  if (isLogoSide) {
+  // Both orientations: front = info, back = logo (vertical for portrait, horizontal for landscape)
+  if (side === 'back') {
     if (isPortrait) {
       // Portrait recto: vertical logo bottom-to-top, full card
       return (

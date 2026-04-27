@@ -7,7 +7,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 import PrintSheet from '@/components/PrintSheet'
 import { translations, type Locale } from '@/lib/translations'
 import { downloadCardAsPDF } from '@/lib/downloadCard'
-import { DEFAULT_COUNTRY, buildPhoneDisplay, isValidEmail, type Country } from '@/lib/format'
+import { DEFAULT_COUNTRY, buildPhoneDisplay, getCountryForLocale, isValidEmail, type Country } from '@/lib/format'
 
 export default function Page() {
   const [locale, setLocale] = useState<Locale>('it')
@@ -28,7 +28,9 @@ export default function Page() {
   useEffect(() => {
     const lang = navigator.language.split('-')[0].toLowerCase()
     const supported = ['fr', 'it', 'de', 'en', 'pl'] as Locale[]
-    setLocale(supported.includes(lang as Locale) ? (lang as Locale) : 'en')
+    const detected = supported.includes(lang as Locale) ? (lang as Locale) : 'en'
+    setLocale(detected)
+    setPhoneCountry(getCountryForLocale(detected))
   }, [])
 
   const cardRef = useRef<HTMLDivElement>(null)
@@ -91,7 +93,13 @@ export default function Page() {
       <div className="min-h-screen bg-zinc-50">
         <header className="bg-white border-b border-zinc-200 px-6 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold text-zinc-800">{t.ui.title}</h1>
-          <LanguageSwitcher locale={locale} onChange={setLocale} />
+          <LanguageSwitcher
+            locale={locale}
+            onChange={(l) => {
+              setLocale(l)
+              if (!phoneLocal) setPhoneCountry(getCountryForLocale(l))
+            }}
+          />
         </header>
 
         <main className="max-w-7xl mx-auto px-6 py-8">

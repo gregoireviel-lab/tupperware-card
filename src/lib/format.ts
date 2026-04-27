@@ -52,6 +52,18 @@ export const COUNTRIES: Country[] = [
 
 export const DEFAULT_COUNTRY: Country = COUNTRIES[0] // BE
 
+export function getCountryForLocale(locale: string): Country {
+  const map: Record<string, string> = {
+    fr: 'FR',
+    it: 'IT',
+    de: 'DE',
+    en: 'GB',
+    pl: 'PL',
+  }
+  const code = map[locale]
+  return COUNTRIES.find((c) => c.code === code) ?? DEFAULT_COUNTRY
+}
+
 export function formatPhoneLocal(input: string): string {
   const d = input.replace(/\D/g, '')
   if (!d) return ''
