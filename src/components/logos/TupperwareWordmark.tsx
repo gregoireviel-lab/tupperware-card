@@ -1,5 +1,5 @@
 // SVG recreation of the Tupperware wordmark
-// Colors: white (on-card version) or brand cyan (#40D8C8)
+// Colors: white (on-card version) or brand teal (#14524f)
 export function TupperwareWordmark({
   color = 'white',
   width = 220,
@@ -9,8 +9,10 @@ export function TupperwareWordmark({
   width?: number
   registered?: boolean
 }) {
-  // Tight viewBox crops visual whitespace when ® is hidden.
-  const vbW = registered ? 560 : 440
+  // Tight viewBox aligned to actual text bounds — so the rendered "T" sits flush
+  // with the SVG's left edge (no internal padding). Centering in parent is done
+  // by parent flex/centering, not by viewBox padding.
+  const vbW = registered ? 410 : 380
   const height = width * (80 / vbW)
 
   return (
@@ -22,9 +24,9 @@ export function TupperwareWordmark({
       style={{ display: 'block', overflow: 'visible' }}
     >
       <text
-        x={vbW / 2}
+        x="0"
         y="70"
-        textAnchor="middle"
+        textAnchor="start"
         fontFamily="'Trebuchet MS', 'Arial Rounded MT Bold', Arial, sans-serif"
         fontWeight="700"
         fontSize="74"
@@ -35,7 +37,7 @@ export function TupperwareWordmark({
       </text>
       {registered && (
         <text
-          x="548"
+          x="380"
           y="18"
           fontFamily="Arial, Helvetica, sans-serif"
           fontWeight="400"
