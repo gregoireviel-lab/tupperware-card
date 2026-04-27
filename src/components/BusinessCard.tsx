@@ -31,19 +31,18 @@ export function getCardSize(orientation: Orientation) {
     : { width: CARD_W_LANDSCAPE, height: CARD_H_LANDSCAPE }
 }
 
-// Tupperware brand teal — sampled from official wordmark PNG (#14524f)
 const BRAND = '#14524f'
 const TEXT = '#ffffff'
-const TEXT_SOFT = 'rgba(255,255,255,0.75)'
+const TEXT_SOFT = 'rgba(255,255,255,0.7)'
 
-const PhoneIcon = ({ size = 18 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={TEXT} xmlns="http://www.w3.org/2000/svg">
+const PhoneIcon = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={TEXT} xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
     <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.24.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.21 2.2z" />
   </svg>
 )
 
-const MailIcon = ({ size = 18 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={TEXT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+const MailIcon = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={TEXT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
     <rect x="3" y="5" width="18" height="14" rx="2" />
     <path d="M3 7l9 6 9-6" />
   </svg>
@@ -71,16 +70,16 @@ const Photo = ({ url, size }: { url: string; size: number }) => (
   />
 )
 
-const Disclaimer = ({ text }: { text: string }) => (
+const Disclaimer = ({ text, align = 'left' }: { text: string; align?: 'left' | 'center' }) => (
   <p
     style={{
       fontSize: '0.55rem',
       fontStyle: 'italic',
-      textTransform: 'uppercase',
       color: TEXT_SOFT,
       margin: 0,
       lineHeight: 1.4,
-      letterSpacing: '0.3px',
+      letterSpacing: '0.2px',
+      textAlign: align,
     }}
   >
     {text}
@@ -116,13 +115,37 @@ const QRBlock = ({ link, size }: { link: string; size: number }) => {
   )
 }
 
+const ContactRow = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.85rem', lineHeight: 1.2 }}>
+    {icon}
+    <span style={{ wordBreak: 'break-all' }}>{text}</span>
+  </div>
+)
+
 const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard(
-  { id, firstName, lastName, phone, email, photoUrl, affiliateLink, orientation, t },
+  { firstName, lastName, phone, email, photoUrl, affiliateLink, orientation, t },
   ref
 ) {
-  const fullName = [firstName, lastName].filter(Boolean).join(' ').trim()
   const { width, height } = getCardSize(orientation)
   const isPortrait = orientation === 'portrait'
+
+  const NameBlock = ({ size, align = 'left' }: { size: number; align?: 'left' | 'center' }) => (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        lineHeight: 1.05,
+        fontWeight: 700,
+        letterSpacing: '-0.5px',
+        textAlign: align,
+        wordBreak: 'break-word',
+        fontSize: `${size}px`,
+      }}
+    >
+      <span>{firstName || (lastName ? '' : '—')}</span>
+      {lastName && <span>{lastName}</span>}
+    </div>
+  )
 
   return (
     <div
@@ -139,114 +162,64 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
         color: TEXT,
         boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
         boxSizing: 'border-box',
-        padding: isPortrait ? '32px 32px 22px 32px' : '24px 28px 18px 28px',
         display: 'flex',
         flexDirection: 'column',
+        padding: isPortrait ? '32px 28px 22px 28px' : '26px 32px 18px 32px',
       }}
     >
       {isPortrait ? (
-        // ─── PORTRAIT ───
-        <>
-          <TupperwareWordmark color={TEXT} width={210} />
+        // ─── PORTRAIT — everything centered ───
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '16px' }}>
+          <TupperwareWordmark color={TEXT} width={200} registered={false} />
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '18px', marginTop: '24px' }}>
-            <Photo url={photoUrl} size={120} />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0, flex: 1 }}>
-              <div
-                style={{
-                  fontSize: '1.6rem',
-                  fontWeight: 700,
-                  lineHeight: 1.05,
-                  letterSpacing: '-0.5px',
-                  wordBreak: 'break-word',
-                }}
-              >
-                {fullName || '—'}
-              </div>
-              {id && (
-                <div style={{ fontSize: '0.72rem', color: TEXT_SOFT, marginTop: '4px' }}>
-                  {t.card.id} {id}
-                </div>
-              )}
+          <Photo url={photoUrl} size={120} />
+
+          <NameBlock size={26} align="center" />
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+            {phone && <ContactRow icon={<PhoneIcon />} text={phone} />}
+            {email && <ContactRow icon={<MailIcon />} text={email} />}
+          </div>
+
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 0 }}>
+            <QRBlock link={affiliateLink} size={170} />
+          </div>
+
+          <Disclaimer text={t.card.legalText} align="center" />
+        </div>
+      ) : (
+        // ─── LANDSCAPE — logo left, QR right, content centered vertically ───
+        <>
+          {/* Header: logo left, QR right */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <TupperwareWordmark color={TEXT} width={170} registered={false} />
+            <div style={{ position: 'absolute', top: '24px', right: '32px' }}>
+              <QRBlock link={affiliateLink} size={120} />
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '22px' }}>
-            {phone && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1rem' }}>
-                <PhoneIcon />
-                <span>{phone}</span>
+          {/* Body: photo + name + contacts (centered vertically) */}
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '20px',
+              paddingRight: '150px',
+              marginTop: '8px',
+            }}
+          >
+            <Photo url={photoUrl} size={120} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', minWidth: 0, flex: 1 }}>
+              <NameBlock size={26} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                {phone && <ContactRow icon={<PhoneIcon />} text={phone} />}
+                {email && <ContactRow icon={<MailIcon />} text={email} />}
               </div>
-            )}
-            {email && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1rem' }}>
-                <MailIcon />
-                <span style={{ wordBreak: 'break-all' }}>{email}</span>
-              </div>
-            )}
-          </div>
-
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '18px' }}>
-            <QRBlock link={affiliateLink} size={200} />
+            </div>
           </div>
 
           <Disclaimer text={t.card.legalText} />
-        </>
-      ) : (
-        // ─── LANDSCAPE ───
-        <>
-          <div style={{ display: 'flex', gap: '20px', flex: 1, minHeight: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '18px', flex: 1, minWidth: 0 }}>
-              <Photo url={photoUrl} size={150} />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: 0, flex: 1 }}>
-                <div
-                  style={{
-                    fontSize: '1.7rem',
-                    fontWeight: 700,
-                    lineHeight: 1.05,
-                    letterSpacing: '-0.5px',
-                    wordBreak: 'break-word',
-                  }}
-                >
-                  {fullName || '—'}
-                </div>
-                {phone && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
-                    <PhoneIcon size={16} />
-                    <span>{phone}</span>
-                  </div>
-                )}
-                {email && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
-                    <MailIcon size={16} />
-                    <span style={{ wordBreak: 'break-all' }}>{email}</span>
-                  </div>
-                )}
-                {id && (
-                  <div style={{ fontSize: '0.72rem', color: TEXT_SOFT, marginTop: '2px' }}>
-                    {t.card.id} {id}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-end',
-                gap: '14px',
-                flexShrink: 0,
-              }}
-            >
-              <TupperwareWordmark color={TEXT} width={220} />
-              <QRBlock link={affiliateLink} size={150} />
-            </div>
-          </div>
-
-          <div style={{ marginTop: '10px' }}>
-            <Disclaimer text={t.card.legalText} />
-          </div>
         </>
       )}
     </div>

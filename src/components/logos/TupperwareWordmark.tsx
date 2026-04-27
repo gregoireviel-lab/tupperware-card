@@ -1,11 +1,13 @@
-// SVG recreation of the Tupperware® wordmark
+// SVG recreation of the Tupperware wordmark
 // Colors: white (on-card version) or brand cyan (#40D8C8)
 export function TupperwareWordmark({
   color = 'white',
   width = 220,
+  registered = true,
 }: {
   color?: string
   width?: number
+  registered?: boolean
 }) {
   const height = width * (80 / 560)
 
@@ -17,7 +19,6 @@ export function TupperwareWordmark({
       xmlns="http://www.w3.org/2000/svg"
       style={{ display: 'block', overflow: 'visible' }}
     >
-      {/* Wordmark text — approximation using rounded font */}
       <text
         x="0"
         y="70"
@@ -29,17 +30,18 @@ export function TupperwareWordmark({
       >
         Tupperware
       </text>
-      {/* ® superscript */}
-      <text
-        x="548"
-        y="18"
-        fontFamily="Arial, Helvetica, sans-serif"
-        fontWeight="400"
-        fontSize="20"
-        fill={color}
-      >
-        {'\u00AE'}
-      </text>
+      {registered && (
+        <text
+          x="548"
+          y="18"
+          fontFamily="Arial, Helvetica, sans-serif"
+          fontWeight="400"
+          fontSize="20"
+          fill={color}
+        >
+          {'®'}
+        </text>
+      )}
     </svg>
   )
 }

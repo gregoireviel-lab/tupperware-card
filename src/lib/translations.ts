@@ -66,7 +66,7 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Expire le :',
       companyDesc: 'OOBO SA, distributeur agréé des produits TUPPERWARE',
       legalText:
-        'CHARGÉ DES VENTES À DOMICILE DE CONTENANTS ALIMENTAIRES, JOUETS ET ARTICLES MÉNAGERS. ADMINISTRATEUR DÉLÉGUÉ GEOFFROY DESTEXHE',
+        'Chargé des ventes à domicile de contenants alimentaires, jouets et articles ménagers',
       brand: 'Brand',
       subtitle: 'OOBO SA, distributeur agréé des produits TUPPERWARE',
     },
@@ -101,7 +101,7 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Scade il :',
       companyDesc: 'OOBO SA, distributore autorizzato dei prodotti TUPPERWARE',
       legalText:
-        'INCARICATO ALLE VENDITE A DOMICILIO DI CONTENITORI PER ALIMENTI, GIOCATTOLI E ARTICOLI CASALINGHI. AMMINISTRATORE DELEGATO GEOFFROY DESTEXHE',
+        'Incaricato alle vendite a domicilio di contenitori per alimenti, giocattoli e articoli casalinghi',
       brand: 'Brand',
       subtitle: 'OOBO SA, distributore autorizzato dei prodotti TUPPERWARE',
     },
@@ -136,7 +136,7 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Läuft ab am :',
       companyDesc: 'OOBO SA, autorisierter Vertreiber von TUPPERWARE-Produkten',
       legalText:
-        'VERKAUFSBEAUFTRAGTER FÜR HAUSTÜRVERKAUF. GESCHÄFTSFÜHRER GEOFFROY DESTEXHE',
+        'Verkaufsbeauftragter für Haustürverkauf von Lebensmittelbehältern, Spielzeug und Haushaltswaren',
       brand: 'Brand',
       subtitle: 'OOBO SA, autorisierter Vertreiber von TUPPERWARE-Produkten',
     },
@@ -171,7 +171,7 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Expires on :',
       companyDesc: 'OOBO SA, authorised distributor of TUPPERWARE products',
       legalText:
-        'HOME SALES REPRESENTATIVE FOR FOOD CONTAINERS, TOYS AND HOUSEHOLD ITEMS. MANAGING DIRECTOR GEOFFROY DESTEXHE',
+        'Home sales representative for food containers, toys and household items',
       brand: 'Brand',
       subtitle: 'OOBO SA, authorised distributor of TUPPERWARE products',
     },
