@@ -7,6 +7,7 @@ export interface Translation {
     download: string
     print: string
     langSwitcher: string
+    pageDisclaimer: string
   }
   form: {
     id: string
@@ -49,6 +50,8 @@ export const translations: Record<Locale, Translation> = {
       download: 'Télécharger PDF',
       print: 'Imprimer la feuille A4 (10 cartes)',
       langSwitcher: 'Langue',
+      pageDisclaimer:
+        'Ces cartes de visite sont générées exclusivement pour les vendeuses agréées Tupperware OOBO SA dans le cadre de leur activité. Usage personnel uniquement — toute reproduction ou distribution à des tiers non autorisés est interdite.',
     },
     form: {
       id: 'Identifiant',
@@ -90,6 +93,8 @@ export const translations: Record<Locale, Translation> = {
       download: 'Scarica PDF',
       print: 'Stampa foglio A4 (10 carte)',
       langSwitcher: 'Lingua',
+      pageDisclaimer:
+        'Queste tessere sono generate esclusivamente per le venditrici autorizzate Tupperware OOBO SA nell\'ambito della loro attività. Solo per uso personale — qualsiasi riproduzione o distribuzione a terzi non autorizzati è vietata.',
     },
     form: {
       id: 'Identificativo',
@@ -131,6 +136,8 @@ export const translations: Record<Locale, Translation> = {
       download: 'PDF herunterladen',
       print: 'A4-Blatt drucken (10 Karten)',
       langSwitcher: 'Sprache',
+      pageDisclaimer:
+        'Diese Visitenkarten werden ausschließlich für autorisierte Tupperware OOBO SA-Verkäuferinnen im Rahmen ihrer Tätigkeit erstellt. Nur für den persönlichen Gebrauch — jegliche Reproduktion oder Weitergabe an unbefugte Dritte ist untersagt.',
     },
     form: {
       id: 'Kennung',
@@ -172,6 +179,8 @@ export const translations: Record<Locale, Translation> = {
       download: 'Download PDF',
       print: 'Print A4 sheet (10 cards)',
       langSwitcher: 'Language',
+      pageDisclaimer:
+        'These business cards are generated exclusively for authorised Tupperware OOBO SA sellers in the course of their activity. Personal use only — any reproduction or distribution to unauthorised third parties is prohibited.',
     },
     form: {
       id: 'ID',
@@ -213,6 +222,8 @@ export const translations: Record<Locale, Translation> = {
       download: 'Pobierz PDF',
       print: 'Drukuj arkusz A4 (10 kart)',
       langSwitcher: 'Język',
+      pageDisclaimer:
+        'Te wizytówki są generowane wyłącznie dla autoryzowanych sprzedawców Tupperware OOBO SA w ramach ich działalności. Tylko do użytku osobistego — wszelkie powielanie lub dystrybucja osobom trzecim bez upoważnienia jest zabronione.',
     },
     form: {
       id: 'Identyfikator',

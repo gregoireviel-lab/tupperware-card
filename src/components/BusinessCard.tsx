@@ -278,25 +278,26 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
           <Disclaimer text={t.card.legalText} color={tk.textSoft} align="center" />
         </div>
       ) : (
-        // ─── LANDSCAPE — logo top-left, name & contacts under, QR centered right ───
+        // ─── LANDSCAPE — logo top, photo + name + contacts grouped, QR right, disclaimer bottom ───
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '24px 32px 18px 32px', boxSizing: 'border-box' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flex: 1, minHeight: 0 }}>
-            {/* Left content column: logo, name+photo, contacts */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', flex: 1, minWidth: 0, alignSelf: 'stretch', justifyContent: 'space-between' }}>
-              <TupperwareWordmark color={tk.text} width={210} registered={false} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '28px', flex: 1, minHeight: 0 }}>
+            {/* Left content column: logo + (photo+name+contacts) */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '24px', alignSelf: 'stretch', justifyContent: 'center', minWidth: 0 }}>
+              <TupperwareWordmark color={tk.text} width={290} registered={false} />
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                {photoUrl && <Photo url={photoUrl} size={90} borderColor={photoBorder} />}
-                <NameBlock size={30} />
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
-                {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                {photoUrl && <Photo url={photoUrl} size={130} borderColor={photoBorder} />}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', minWidth: 0 }}>
+                  <NameBlock size={32} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
+                    {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Right — QR vertically centered, same size as portrait */}
+            {/* Right — QR vertically centered */}
             <div style={{ flexShrink: 0 }}>
               <QRBlock link={affiliateLink} size={170} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
             </div>

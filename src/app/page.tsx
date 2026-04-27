@@ -181,6 +181,12 @@ export default function Page() {
             </div>
           </div>
         </main>
+
+        <footer className="max-w-7xl mx-auto px-6 pb-8 pt-2">
+          <p className="text-xs text-zinc-400 italic leading-relaxed text-center">
+            {t.ui.pageDisclaimer}
+          </p>
+        </footer>
       </div>
 
       <div style={{ position: 'fixed', left: '-9999px', top: 0, pointerEvents: 'none', zIndex: -1 }}>
