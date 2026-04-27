@@ -151,9 +151,42 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
   const isPortrait = orientation === 'portrait'
   const tk = getThemeTokens(theme)
 
-  // ─── BACK SIDE ───
-  if (side === 'back') {
-    const logoW = isPortrait ? width * 0.92 : width * 0.78
+  // For portrait: recto = rotated logo only, verso = info card
+  // For landscape: recto = info card, verso = centered logo
+  const isInfoSide = isPortrait ? side === 'back' : side === 'front'
+  const isLogoSide = !isInfoSide
+
+  // ─── LOGO-ONLY SIDE ───
+  if (isLogoSide) {
+    if (isPortrait) {
+      // Portrait recto: vertical logo bottom-to-top, full card
+      return (
+        <div
+          ref={ref}
+          className="business-card-root"
+          style={{
+            width: `${width}px`,
+            height: `${height}px`,
+            backgroundColor: tk.bg,
+            borderRadius: '18px',
+            position: 'relative',
+            overflow: 'hidden',
+            fontFamily: "'Trebuchet MS', Arial, Helvetica, sans-serif",
+            color: tk.text,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+            boxSizing: 'border-box',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div style={{ transform: 'rotate(-90deg)', whiteSpace: 'nowrap' }}>
+            <TupperwareWordmark color={tk.text} width={620} registered={false} />
+          </div>
+        </div>
+      )
+    }
+    // Landscape verso: big centered horizontal logo
     return (
       <div
         ref={ref}
@@ -174,7 +207,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
           justifyContent: 'center',
         }}
       >
-        <TupperwareWordmark color={tk.text} width={logoW} registered={false} />
+        <TupperwareWordmark color={tk.text} width={width * 0.78} registered={false} />
       </div>
     )
   }
@@ -185,7 +218,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '6px',
+        gap: '10px',
         fontWeight: 700,
         letterSpacing: '-0.5px',
         textAlign: align,
@@ -219,49 +252,35 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
       }}
     >
       {isPortrait ? (
-        // ─── PORTRAIT — vertical logo on left edge (reads bottom-to-top), main content right ───
-        <div style={{ display: 'flex', height: '100%', boxSizing: 'border-box' }}>
-          {/* Left strip: rotated wordmark */}
-          <div
-            style={{
-              width: '70px',
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '20px 0',
-            }}
-          >
-            <div style={{ transform: 'rotate(-90deg)', transformOrigin: 'center center', whiteSpace: 'nowrap' }}>
-              <TupperwareWordmark color={tk.text} width={520} registered={false} />
-            </div>
-          </div>
+        // ─── PORTRAIT VERSO (info side) — logo top, info+QR vertically centered, disclaimer bottom ───
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '24px 28px 18px 28px', boxSizing: 'border-box' }}>
+          <TupperwareWordmark color={tk.text} width={310} registered={false} />
 
-          {/* Main column */}
-          <div
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '28px 26px 20px 0',
-              minWidth: 0,
-            }}
-          >
+          {/* Centered block: photo, name, contacts, QR */}
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '18px', width: '100%' }}>
             {photoUrl && <Photo url={photoUrl} size={130} borderColor={photoBorder} />}
 
-            <NameBlock size={32} align="center" />
+            <NameBlock size={38} align="center" />
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'flex-start' }}>
-              {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
-              {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'flex-start' }}>
+              {phone && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.05rem', lineHeight: 1.2 }}>
+                  <PhoneIcon color={tk.text} size={20} />
+                  <span style={{ wordBreak: 'break-all' }}>{phone}</span>
+                </div>
+              )}
+              {email && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.05rem', lineHeight: 1.2 }}>
+                  <MailIcon color={tk.text} size={20} />
+                  <span style={{ wordBreak: 'break-all' }}>{email}</span>
+                </div>
+              )}
             </div>
 
             <QRBlock link={affiliateLink} size={170} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
-
-            <Disclaimer text={t.card.legalText} color={tk.textSoft} align="center" />
           </div>
+
+          <Disclaimer text={t.card.legalText} color={tk.textSoft} align="center" />
         </div>
       ) : (
         // ─── LANDSCAPE — logo top-left, name & contacts under, QR centered right ───

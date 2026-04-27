@@ -3,19 +3,30 @@
 import React, { useRef } from 'react'
 import type { Translation } from '@/lib/translations'
 import type { Orientation, Theme } from '@/components/BusinessCard'
+import {
+  formatFirstName,
+  formatLastName,
+  formatEmail,
+  formatPhoneLocal,
+  isValidEmail,
+  COUNTRIES,
+  type Country,
+} from '@/lib/format'
 
 interface CardFormProps {
   id: string
   firstName: string
   lastName: string
-  phone: string
+  phoneCountry: Country
+  phoneLocal: string
   email: string
   photoUrl: string
-  affiliateLink: string // computed from id, display-only
+  affiliateLink: string
   orientation: Orientation
   theme: Theme
   t: Translation
   onChange: (field: string, value: string) => void
+  onPhoneCountryChange: (c: Country) => void
   onOrientationChange: (o: Orientation) => void
   onThemeChange: (th: Theme) => void
 }
@@ -24,7 +35,8 @@ export default function CardForm({
   id,
   firstName,
   lastName,
-  phone,
+  phoneCountry,
+  phoneLocal,
   email,
   photoUrl,
   affiliateLink,
@@ -32,34 +44,30 @@ export default function CardForm({
   theme,
   t,
   onChange,
+  onPhoneCountryChange,
   onOrientationChange,
   onThemeChange,
 }: CardFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // ID validation: 5–6 digits
-  const idIsValid = id === '' || (/^\d{5,6}$/.test(id))
-  const idTooLong = id.length > 6
+  const idIsValid = id === '' || /^\d{5,6}$/.test(id)
+  const emailIsValid = email === '' || isValidEmail(email)
 
   function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
     const reader = new FileReader()
-    reader.onload = (ev) => {
-      onChange('photoUrl', ev.target?.result as string)
-    }
+    reader.onload = (ev) => onChange('photoUrl', ev.target?.result as string)
     reader.readAsDataURL(file)
   }
 
   function handleRemovePhoto() {
     onChange('photoUrl', '')
-    // Reset input so the same file can be re-selected
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
   const inputClass =
     'w-full px-3 py-2 rounded-lg bg-white border border-zinc-300 text-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400'
-  const inputStyle = {}
   const labelClass = 'block text-sm font-medium text-zinc-700 mb-1'
 
   return (
@@ -122,79 +130,94 @@ export default function CardForm({
         <input
           type="text"
           inputMode="numeric"
-          className={`${inputClass} ${!idIsValid || idTooLong ? 'border-red-400 focus:ring-red-400' : ''}`}
-          style={inputStyle}
+          className={`${inputClass} ${!idIsValid ? 'border-red-400 focus:ring-red-400' : ''}`}
           value={id}
           maxLength={6}
-          onChange={(e) => {
-            const val = e.target.value.replace(/\D/g, '').slice(0, 6)
-            onChange('id', val)
-          }}
+          onChange={(e) => onChange('id', e.target.value.replace(/\D/g, '').slice(0, 6))}
           placeholder="ex: 96541"
         />
         {id.length > 0 && id.length < 5 && (
-          <p className="text-xs text-red-500 mt-1">{id.length}/6 — minimum 5 chiffres</p>
+          <p className="text-xs text-red-500 mt-1">{id.length}/6 — min. 5 digits</p>
         )}
         {id.length >= 5 && id.length <= 6 && affiliateLink && (
           <p className="text-xs text-zinc-400 mt-1 font-mono break-all">{affiliateLink}</p>
         )}
       </div>
 
-      {/* First name */}
+      {/* First name — Capitalized */}
       <div>
         <label className={labelClass}>{t.form.firstName}</label>
         <input
           type="text"
           className={inputClass}
-          style={inputStyle}
           value={firstName}
-          onChange={(e) => onChange('firstName', e.target.value)}
+          onChange={(e) => onChange('firstName', formatFirstName(e.target.value))}
+          placeholder="Marie"
         />
       </div>
 
-      {/* Last name */}
+      {/* Last name — UPPERCASE */}
       <div>
         <label className={labelClass}>{t.form.lastName}</label>
         <input
           type="text"
           className={inputClass}
-          style={inputStyle}
           value={lastName}
-          onChange={(e) => onChange('lastName', e.target.value)}
+          onChange={(e) => onChange('lastName', formatLastName(e.target.value))}
+          placeholder="DUPONT"
         />
       </div>
 
-      {/* Phone (optional) */}
+      {/* Phone — country dropdown + local number */}
       <div>
         <label className={labelClass}>
           {t.form.phone} <span className="text-zinc-400 font-normal">({t.form.optional})</span>
         </label>
-        <input
-          type="tel"
-          className={inputClass}
-          style={inputStyle}
-          value={phone}
-          onChange={(e) => onChange('phone', e.target.value)}
-          placeholder="+32 470 12 34 56"
-        />
+        <div className="flex gap-2">
+          <select
+            value={phoneCountry.code}
+            onChange={(e) => {
+              const c = COUNTRIES.find((x) => x.code === e.target.value)
+              if (c) onPhoneCountryChange(c)
+            }}
+            className="px-2 py-2 rounded-lg bg-white border border-zinc-300 text-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+            aria-label="Country"
+          >
+            {COUNTRIES.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.flag} {c.dial}
+              </option>
+            ))}
+          </select>
+          <input
+            type="tel"
+            inputMode="numeric"
+            className={`${inputClass} flex-1`}
+            value={formatPhoneLocal(phoneLocal)}
+            onChange={(e) => onChange('phoneLocal', e.target.value.replace(/\D/g, ''))}
+            placeholder="470 12 34 56"
+          />
+        </div>
       </div>
 
-      {/* Email (optional) */}
+      {/* Email — lowercase + valid format */}
       <div>
         <label className={labelClass}>
           {t.form.email} <span className="text-zinc-400 font-normal">({t.form.optional})</span>
         </label>
         <input
           type="email"
-          className={inputClass}
-          style={inputStyle}
+          className={`${inputClass} ${!emailIsValid ? 'border-red-400 focus:ring-red-400' : ''}`}
           value={email}
-          onChange={(e) => onChange('email', e.target.value)}
+          onChange={(e) => onChange('email', formatEmail(e.target.value))}
           placeholder="prenom.nom@example.com"
         />
+        {!emailIsValid && (
+          <p className="text-xs text-red-500 mt-1">Invalid email format</p>
+        )}
       </div>
 
-      {/* Photo upload (optional) */}
+      {/* Photo (optional) */}
       <div>
         <label className={labelClass}>
           {t.form.photo} <span className="text-zinc-400 font-normal">({t.form.optional})</span>
@@ -202,11 +225,7 @@ export default function CardForm({
         <div className="flex items-center gap-3">
           {photoUrl && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={photoUrl}
-              alt="Preview"
-              className="w-12 h-12 rounded-full object-cover border-2 border-teal-300"
-            />
+            <img src={photoUrl} alt="Preview" className="w-12 h-12 rounded-full object-cover border-2 border-teal-300" />
           )}
           <button
             type="button"
@@ -225,13 +244,7 @@ export default function CardForm({
             </button>
           )}
         </div>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={handlePhotoChange}
-        />
+        <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
       </div>
     </div>
   )

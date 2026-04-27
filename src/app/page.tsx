@@ -7,13 +7,15 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 import PrintSheet from '@/components/PrintSheet'
 import { translations, type Locale } from '@/lib/translations'
 import { downloadCardAsPDF } from '@/lib/downloadCard'
+import { DEFAULT_COUNTRY, buildPhoneDisplay, isValidEmail, type Country } from '@/lib/format'
 
 export default function Page() {
   const [locale, setLocale] = useState<Locale>('it')
   const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [phone, setPhone] = useState('')
+  const [phoneCountry, setPhoneCountry] = useState<Country>(DEFAULT_COUNTRY)
+  const [phoneLocal, setPhoneLocal] = useState('')
   const [email, setEmail] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
   const [orientation, setOrientation] = useState<Orientation>('landscape')
@@ -21,7 +23,6 @@ export default function Page() {
   const [side, setSide] = useState<Side>('front')
   const [isDownloading, setIsDownloading] = useState(false)
 
-  // Affiliate link is always derived from ID — never stored separately
   const affiliateLink = id.length >= 5 && id.length <= 6 ? `https://tupperware-eu.com/?ref=${id}` : ''
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function Page() {
       case 'id': setId(value); break
       case 'firstName': setFirstName(value); break
       case 'lastName': setLastName(value); break
-      case 'phone': setPhone(value); break
+      case 'phoneLocal': setPhoneLocal(value); break
       case 'email': setEmail(value); break
       case 'photoUrl': setPhotoUrl(value); break
     }
@@ -62,11 +63,15 @@ export default function Page() {
     if (affiliateLink) window.open(affiliateLink, '_blank', 'noopener')
   }
 
+  // Display only valid email on the card; phone uses formatted display from country + local
+  const phoneDisplay = buildPhoneDisplay(phoneCountry, phoneLocal)
+  const emailDisplay = email && isValidEmail(email) ? email : ''
+
   const baseCardProps = {
     firstName,
     lastName,
-    phone,
-    email,
+    phone: phoneDisplay,
+    email: emailDisplay,
     photoUrl,
     affiliateLink,
     orientation,
@@ -74,7 +79,6 @@ export default function Page() {
     t,
   }
   const previewCardProps = { ...baseCardProps, side }
-  // For PDF download: capture the currently shown side
   const downloadCardProps = { ...baseCardProps, side }
 
   const scale = 0.75
@@ -99,7 +103,8 @@ export default function Page() {
                 id={id}
                 firstName={firstName}
                 lastName={lastName}
-                phone={phone}
+                phoneCountry={phoneCountry}
+                phoneLocal={phoneLocal}
                 email={email}
                 photoUrl={photoUrl}
                 affiliateLink={affiliateLink}
@@ -107,6 +112,7 @@ export default function Page() {
                 theme={theme}
                 t={t}
                 onChange={handleChange}
+                onPhoneCountryChange={setPhoneCountry}
                 onOrientationChange={setOrientation}
                 onThemeChange={setTheme}
               />
@@ -169,12 +175,10 @@ export default function Page() {
         </main>
       </div>
 
-      {/* Hidden full-size card for html2canvas — captures the currently displayed side */}
       <div style={{ position: 'fixed', left: '-9999px', top: 0, pointerEvents: 'none', zIndex: -1 }}>
         <BusinessCard ref={cardRef} {...downloadCardProps} />
       </div>
 
-      {/* Print sheet: page 1 = fronts, page 2 = backs (mirrored for duplex alignment) */}
       <div id="print-sheet" className="print-only" data-orientation={orientation}>
         <PrintSheet baseCardProps={baseCardProps} />
       </div>
