@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react'
 import type { Translation } from '@/lib/translations'
-import type { Orientation } from '@/components/BusinessCard'
+import type { Orientation, Theme } from '@/components/BusinessCard'
 
 interface CardFormProps {
   id: string
@@ -13,9 +13,11 @@ interface CardFormProps {
   photoUrl: string
   affiliateLink: string // computed from id, display-only
   orientation: Orientation
+  theme: Theme
   t: Translation
   onChange: (field: string, value: string) => void
   onOrientationChange: (o: Orientation) => void
+  onThemeChange: (th: Theme) => void
 }
 
 export default function CardForm({
@@ -27,9 +29,11 @@ export default function CardForm({
   photoUrl,
   affiliateLink,
   orientation,
+  theme,
   t,
   onChange,
   onOrientationChange,
+  onThemeChange,
 }: CardFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -78,6 +82,37 @@ export default function CardForm({
               {t.form[o]}
             </button>
           ))}
+        </div>
+      </div>
+
+      {/* Theme toggle */}
+      <div>
+        <label className={labelClass}>{t.form.theme}</label>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => onThemeChange('teal')}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors border flex items-center justify-center gap-2 ${
+              theme === 'teal'
+                ? 'bg-teal-600 text-white border-teal-600'
+                : 'bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50'
+            }`}
+          >
+            <span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: '#14524f', border: '1px solid rgba(0,0,0,0.1)' }} />
+            {t.form.themeTeal}
+          </button>
+          <button
+            type="button"
+            onClick={() => onThemeChange('mint')}
+            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors border flex items-center justify-center gap-2 ${
+              theme === 'mint'
+                ? 'bg-teal-600 text-white border-teal-600'
+                : 'bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-50'
+            }`}
+          >
+            <span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: '#9DD9D8', border: '1px solid rgba(0,0,0,0.1)' }} />
+            {t.form.themeMint}
+          </button>
         </div>
       </div>
 

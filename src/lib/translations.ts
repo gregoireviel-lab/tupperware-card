@@ -21,6 +21,12 @@ export interface Translation {
     orientation: string
     landscape: string
     portrait: string
+    theme: string
+    themeTeal: string
+    themeMint: string
+    flipFront: string
+    flipBack: string
+    testQR: string
   }
   card: {
     id: string
@@ -57,6 +63,12 @@ export const translations: Record<Locale, Translation> = {
       orientation: 'Format',
       landscape: 'Paysage',
       portrait: 'Portrait',
+      theme: 'Couleur',
+      themeTeal: 'Vert foncé',
+      themeMint: 'Vert clair',
+      flipFront: 'Voir le recto',
+      flipBack: 'Voir le verso',
+      testQR: 'Tester le lien du QR',
     },
     card: {
       id: 'ID :',
@@ -92,6 +104,12 @@ export const translations: Record<Locale, Translation> = {
       orientation: 'Formato',
       landscape: 'Orizzontale',
       portrait: 'Verticale',
+      theme: 'Colore',
+      themeTeal: 'Verde scuro',
+      themeMint: 'Verde chiaro',
+      flipFront: 'Mostra fronte',
+      flipBack: 'Mostra retro',
+      testQR: 'Prova il link del QR',
     },
     card: {
       id: 'ID :',
@@ -127,6 +145,12 @@ export const translations: Record<Locale, Translation> = {
       orientation: 'Format',
       landscape: 'Querformat',
       portrait: 'Hochformat',
+      theme: 'Farbe',
+      themeTeal: 'Dunkelgrün',
+      themeMint: 'Hellgrün',
+      flipFront: 'Vorderseite',
+      flipBack: 'Rückseite',
+      testQR: 'QR-Link testen',
     },
     card: {
       id: 'ID :',
@@ -162,6 +186,12 @@ export const translations: Record<Locale, Translation> = {
       orientation: 'Format',
       landscape: 'Landscape',
       portrait: 'Portrait',
+      theme: 'Color',
+      themeTeal: 'Dark green',
+      themeMint: 'Light green',
+      flipFront: 'Show front',
+      flipBack: 'Show back',
+      testQR: 'Test QR link',
     },
     card: {
       id: 'ID :',

@@ -6,9 +6,10 @@ import { TupperwareWordmark } from '@/components/logos/TupperwareWordmark'
 import type { Translation } from '@/lib/translations'
 
 export type Orientation = 'landscape' | 'portrait'
+export type Side = 'front' | 'back'
+export type Theme = 'teal' | 'mint'
 
 export interface CardProps {
-  id: string
   firstName: string
   lastName: string
   phone: string
@@ -16,6 +17,8 @@ export interface CardProps {
   photoUrl: string
   affiliateLink: string
   orientation: Orientation
+  side: Side
+  theme: Theme
   t: Translation
 }
 
@@ -31,51 +34,70 @@ export function getCardSize(orientation: Orientation) {
     : { width: CARD_W_LANDSCAPE, height: CARD_H_LANDSCAPE }
 }
 
-const BRAND = '#14524f'
-const TEXT = '#ffffff'
-const TEXT_SOFT = 'rgba(255,255,255,0.7)'
+interface ThemeTokens {
+  bg: string
+  text: string
+  textSoft: string
+  qrBg: string
+  qrFg: string
+}
 
-const PhoneIcon = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={TEXT} xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+export function getThemeTokens(theme: Theme): ThemeTokens {
+  if (theme === 'mint') {
+    return {
+      bg: '#9DD9D8',
+      text: '#14524f',
+      textSoft: 'rgba(20,82,79,0.65)',
+      qrBg: '#ffffff',
+      qrFg: '#14524f',
+    }
+  }
+  return {
+    bg: '#14524f',
+    text: '#ffffff',
+    textSoft: 'rgba(255,255,255,0.7)',
+    qrBg: '#ffffff',
+    qrFg: '#14524f',
+  }
+}
+
+const PhoneIcon = ({ size = 16, color }: { size?: number; color: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
     <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.24.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.21 2.2z" />
   </svg>
 )
 
-const MailIcon = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={TEXT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+const MailIcon = ({ size = 16, color }: { size?: number; color: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
     <rect x="3" y="5" width="18" height="14" rx="2" />
     <path d="M3 7l9 6 9-6" />
   </svg>
 )
 
-const Photo = ({ url, size }: { url: string; size: number }) => (
-  <div
-    style={{
-      width: `${size}px`,
-      height: `${size}px`,
-      borderRadius: '50%',
-      flexShrink: 0,
-      ...(url
-        ? {
-            border: '2.5px solid rgba(255,255,255,0.45)',
-            backgroundImage: `url(${url})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }
-        : {
-            border: '2px dashed rgba(255,255,255,0.25)',
-            backgroundColor: 'rgba(255,255,255,0.05)',
-          }),
-    }}
-  />
-)
+const Photo = ({ url, size }: { url: string; size: number }) => {
+  if (!url) return null
+  return (
+    <div
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: '50%',
+        flexShrink: 0,
+        border: '2.5px solid rgba(255,255,255,0.45)',
+        backgroundImage: `url(${url})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    />
+  )
+}
 
-const Disclaimer = ({ text, align = 'left' }: { text: string; align?: 'left' | 'center' }) => (
+const Disclaimer = ({ text, color, align = 'left' }: { text: string; color: string; align?: 'left' | 'center' }) => (
   <p
     style={{
       fontSize: '0.55rem',
       fontStyle: 'italic',
-      color: TEXT_SOFT,
+      color,
       margin: 0,
       lineHeight: 1.4,
       letterSpacing: '0.2px',
@@ -86,11 +108,11 @@ const Disclaimer = ({ text, align = 'left' }: { text: string; align?: 'left' | '
   </p>
 )
 
-const QRBlock = ({ link, size }: { link: string; size: number }) => {
+const QRBlock = ({ link, size, qrBg, qrFg, soft }: { link: string; size: number; qrBg: string; qrFg: string; soft: string }) => {
   if (link) {
     return (
-      <div style={{ backgroundColor: '#ffffff', padding: '7px', borderRadius: '8px', lineHeight: 0 }}>
-        <QRCodeSVG value={link} size={size} level="M" fgColor={BRAND} bgColor="#ffffff" />
+      <div style={{ backgroundColor: qrBg, padding: '7px', borderRadius: '8px', lineHeight: 0 }}>
+        <QRCodeSVG value={link} size={size} level="M" fgColor={qrFg} bgColor={qrBg} />
       </div>
     )
   }
@@ -101,12 +123,12 @@ const QRBlock = ({ link, size }: { link: string; size: number }) => {
         height: `${size + 14}px`,
         backgroundColor: 'rgba(255,255,255,0.10)',
         borderRadius: '8px',
-        border: `2px dashed ${TEXT_SOFT}`,
+        border: `2px dashed ${soft}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: '0.7rem',
-        color: TEXT_SOFT,
+        color: soft,
         textAlign: 'center' as const,
       }}
     >
@@ -123,12 +145,42 @@ const ContactRow = ({ icon, text }: { icon: React.ReactNode; text: string }) => 
 )
 
 const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard(
-  { firstName, lastName, phone, email, photoUrl, affiliateLink, orientation, t },
+  { firstName, lastName, phone, email, photoUrl, affiliateLink, orientation, side, theme, t },
   ref
 ) {
   const { width, height } = getCardSize(orientation)
   const isPortrait = orientation === 'portrait'
+  const tk = getThemeTokens(theme)
 
+  // ─── BACK SIDE — full bg + centered large logo ───
+  if (side === 'back') {
+    const logoW = isPortrait ? 320 : 460
+    return (
+      <div
+        ref={ref}
+        className="business-card-root"
+        style={{
+          width: `${width}px`,
+          height: `${height}px`,
+          backgroundColor: tk.bg,
+          borderRadius: '18px',
+          position: 'relative',
+          overflow: 'hidden',
+          fontFamily: "'Trebuchet MS', Arial, Helvetica, sans-serif",
+          color: tk.text,
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+          boxSizing: 'border-box',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <TupperwareWordmark color={tk.text} width={logoW} registered={false} />
+      </div>
+    )
+  }
+
+  // ─── FRONT SIDE ───
   const NameBlock = ({ size, align = 'left' }: { size: number; align?: 'left' | 'center' }) => (
     <div
       style={{
@@ -154,12 +206,12 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
       style={{
         width: `${width}px`,
         height: `${height}px`,
-        backgroundColor: BRAND,
+        backgroundColor: tk.bg,
         borderRadius: '18px',
         position: 'relative',
         overflow: 'hidden',
         fontFamily: "'Trebuchet MS', Arial, Helvetica, sans-serif",
-        color: TEXT,
+        color: tk.text,
         boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
         boxSizing: 'border-box',
         display: 'flex',
@@ -168,37 +220,27 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
       }}
     >
       {isPortrait ? (
-        // ─── PORTRAIT — everything centered ───
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '16px' }}>
-          <TupperwareWordmark color={TEXT} width={200} registered={false} />
-
-          <Photo url={photoUrl} size={120} />
-
+          <TupperwareWordmark color={tk.text} width={200} registered={false} />
+          {photoUrl && <Photo url={photoUrl} size={120} />}
           <NameBlock size={26} align="center" />
-
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
-            {phone && <ContactRow icon={<PhoneIcon />} text={phone} />}
-            {email && <ContactRow icon={<MailIcon />} text={email} />}
+            {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
+            {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
           </div>
-
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 0 }}>
-            <QRBlock link={affiliateLink} size={170} />
+            <QRBlock link={affiliateLink} size={170} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
           </div>
-
-          <Disclaimer text={t.card.legalText} align="center" />
+          <Disclaimer text={t.card.legalText} color={tk.textSoft} align="center" />
         </div>
       ) : (
-        // ─── LANDSCAPE — logo left, QR right, content centered vertically ───
         <>
-          {/* Header: logo left, QR right */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <TupperwareWordmark color={TEXT} width={170} registered={false} />
+            <TupperwareWordmark color={tk.text} width={170} registered={false} />
             <div style={{ position: 'absolute', top: '24px', right: '32px' }}>
-              <QRBlock link={affiliateLink} size={120} />
+              <QRBlock link={affiliateLink} size={120} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
             </div>
           </div>
-
-          {/* Body: photo + name + contacts (centered vertically) */}
           <div
             style={{
               flex: 1,
@@ -209,17 +251,16 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
               marginTop: '8px',
             }}
           >
-            <Photo url={photoUrl} size={120} />
+            {photoUrl && <Photo url={photoUrl} size={120} />}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', minWidth: 0, flex: 1 }}>
               <NameBlock size={26} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                {phone && <ContactRow icon={<PhoneIcon />} text={phone} />}
-                {email && <ContactRow icon={<MailIcon />} text={email} />}
+                {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
+                {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
               </div>
             </div>
           </div>
-
-          <Disclaimer text={t.card.legalText} />
+          <Disclaimer text={t.card.legalText} color={tk.textSoft} />
         </>
       )}
     </div>

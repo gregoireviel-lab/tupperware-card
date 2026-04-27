@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import BusinessCard, { getCardSize, type Orientation } from '@/components/BusinessCard'
+import BusinessCard, { getCardSize, type Orientation, type Side, type Theme } from '@/components/BusinessCard'
 import CardForm from '@/components/CardForm'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import PrintSheet from '@/components/PrintSheet'
@@ -9,7 +9,7 @@ import { translations, type Locale } from '@/lib/translations'
 import { downloadCardAsPDF } from '@/lib/downloadCard'
 
 export default function Page() {
-  const [locale, setLocale] = useState<Locale>('it') // default overridden by browser lang on mount
+  const [locale, setLocale] = useState<Locale>('it')
   const [id, setId] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -17,13 +17,13 @@ export default function Page() {
   const [email, setEmail] = useState('')
   const [photoUrl, setPhotoUrl] = useState('')
   const [orientation, setOrientation] = useState<Orientation>('landscape')
+  const [theme, setTheme] = useState<Theme>('teal')
+  const [side, setSide] = useState<Side>('front')
   const [isDownloading, setIsDownloading] = useState(false)
 
   // Affiliate link is always derived from ID — never stored separately
   const affiliateLink = id.length >= 5 && id.length <= 6 ? `https://tupperware-eu.com/?ref=${id}` : ''
 
-  // Ref points to the full-size hidden card (not the scaled preview)
-  // Auto-detect browser language on mount
   useEffect(() => {
     const lang = navigator.language.split('-')[0].toLowerCase()
     const supported = ['fr', 'it', 'de', 'en'] as Locale[]
@@ -58,9 +58,25 @@ export default function Page() {
     window.print()
   }
 
-  const cardProps = { id, firstName, lastName, phone, email, photoUrl, affiliateLink, orientation, t }
+  function handleTestQR() {
+    if (affiliateLink) window.open(affiliateLink, '_blank', 'noopener')
+  }
 
-  // Preview scale: display card at 75% of its native size
+  const baseCardProps = {
+    firstName,
+    lastName,
+    phone,
+    email,
+    photoUrl,
+    affiliateLink,
+    orientation,
+    theme,
+    t,
+  }
+  const previewCardProps = { ...baseCardProps, side }
+  // For PDF download: capture the currently shown side
+  const downloadCardProps = { ...baseCardProps, side }
+
   const scale = 0.75
   const { width: cardW, height: cardH } = getCardSize(orientation)
   const previewW = Math.round(cardW * scale)
@@ -68,9 +84,7 @@ export default function Page() {
 
   return (
     <>
-      {/* ── Main app ── */}
       <div className="min-h-screen bg-zinc-50">
-        {/* Header */}
         <header className="bg-white border-b border-zinc-200 px-6 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold text-zinc-800">{t.ui.title}</h1>
           <LanguageSwitcher locale={locale} onChange={setLocale} />
@@ -79,7 +93,6 @@ export default function Page() {
         <main className="max-w-7xl mx-auto px-6 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
 
-            {/* Left: Form */}
             <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-6">
               <h2 className="text-base font-semibold text-zinc-700 mb-5">Informations</h2>
               <CardForm
@@ -91,17 +104,26 @@ export default function Page() {
                 photoUrl={photoUrl}
                 affiliateLink={affiliateLink}
                 orientation={orientation}
+                theme={theme}
                 t={t}
                 onChange={handleChange}
                 onOrientationChange={setOrientation}
+                onThemeChange={setTheme}
               />
             </div>
 
-            {/* Right: Preview + actions */}
             <div className="flex flex-col gap-5">
               <div>
-                <h2 className="text-base font-semibold text-zinc-700 mb-4">{t.ui.preview}</h2>
-                {/* Scaled visual preview */}
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-base font-semibold text-zinc-700">{t.ui.preview}</h2>
+                  <button
+                    type="button"
+                    onClick={() => setSide(side === 'front' ? 'back' : 'front')}
+                    className="px-3 py-1.5 text-xs font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50"
+                  >
+                    {side === 'front' ? t.form.flipBack : t.form.flipFront}
+                  </button>
+                </div>
                 <div style={{ width: previewW, height: previewH, position: 'relative', overflow: 'hidden' }}>
                   <div
                     style={{
@@ -114,14 +136,20 @@ export default function Page() {
                       left: 0,
                     }}
                   >
-                    {/* Visual-only clone (no ref) */}
-                    <BusinessCard {...cardProps} />
+                    <BusinessCard {...previewCardProps} />
                   </div>
                 </div>
               </div>
 
-              {/* Action buttons — stacked vertically */}
               <div className="flex flex-col gap-3" style={{ maxWidth: previewW }}>
+                {affiliateLink && (
+                  <button
+                    onClick={handleTestQR}
+                    className="w-full px-5 py-2.5 bg-white border border-zinc-300 hover:bg-zinc-50 text-zinc-700 font-medium rounded-xl transition-colors text-sm"
+                  >
+                    🔗 {t.form.testQR}
+                  </button>
+                )}
                 <button
                   onClick={handleDownload}
                   disabled={isDownloading}
@@ -141,31 +169,14 @@ export default function Page() {
         </main>
       </div>
 
-      {/*
-       * Hidden full-size card for html2canvas capture.
-       * Outside the main wrapper so it's never inside a CSS transform.
-       * position:fixed + left:-9999px keeps it off-screen.
-       */}
-      <div
-        style={{
-          position: 'fixed',
-          left: '-9999px',
-          top: 0,
-          pointerEvents: 'none',
-          zIndex: -1,
-        }}
-      >
-        <BusinessCard ref={cardRef} {...cardProps} />
+      {/* Hidden full-size card for html2canvas — captures the currently displayed side */}
+      <div style={{ position: 'fixed', left: '-9999px', top: 0, pointerEvents: 'none', zIndex: -1 }}>
+        <BusinessCard ref={cardRef} {...downloadCardProps} />
       </div>
 
-      {/*
-       * Print sheet — direct sibling of main wrapper (direct child of <body>).
-       * This is CRITICAL: if it were inside the main wrapper, the
-       * "body > * { display:none }" print rule would hide its parent first,
-       * making #print-sheet invisible even with display:block !important.
-       */}
+      {/* Print sheet: page 1 = fronts, page 2 = backs (mirrored for duplex alignment) */}
       <div id="print-sheet" className="print-only" data-orientation={orientation}>
-        <PrintSheet cardProps={cardProps} />
+        <PrintSheet baseCardProps={baseCardProps} />
       </div>
     </>
   )

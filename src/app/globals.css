@@ -34,6 +34,15 @@
     print-color-adjust: exact !important;
   }
 
+  /* Backs go on a separate page; mirror columns for long-edge duplex alignment */
+  .print-grid-back {
+    page-break-before: always;
+    direction: rtl;
+  }
+  .print-grid-back .print-card-slot {
+    direction: ltr;
+  }
+
   /* Landscape: 2×5 grid (85mm × 54mm) */
   #print-sheet[data-orientation="landscape"] .print-grid {
     display: grid !important;
