@@ -9,19 +9,22 @@ export function TupperwareWordmark({
   width?: number
   registered?: boolean
 }) {
-  const height = width * (80 / 560)
+  // Tight viewBox crops visual whitespace when ® is hidden.
+  const vbW = registered ? 560 : 440
+  const height = width * (80 / vbW)
 
   return (
     <svg
-      viewBox="0 0 560 80"
+      viewBox={`0 0 ${vbW} 80`}
       width={width}
       height={height}
       xmlns="http://www.w3.org/2000/svg"
       style={{ display: 'block', overflow: 'visible' }}
     >
       <text
-        x="0"
+        x={vbW / 2}
         y="70"
+        textAnchor="middle"
         fontFamily="'Trebuchet MS', 'Arial Rounded MT Bold', Arial, sans-serif"
         fontWeight="700"
         fontSize="74"

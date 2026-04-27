@@ -22,7 +22,6 @@ export interface CardProps {
   t: Translation
 }
 
-// Credit card standard: 85.6mm × 54mm. 8× pixel density: 684×432
 export const CARD_W_LANDSCAPE = 684
 export const CARD_H_LANDSCAPE = 432
 export const CARD_W_PORTRAIT = 432
@@ -47,7 +46,7 @@ export function getThemeTokens(theme: Theme): ThemeTokens {
     return {
       bg: '#9DD9D8',
       text: '#14524f',
-      textSoft: 'rgba(20,82,79,0.65)',
+      textSoft: 'rgba(20,82,79,0.7)',
       qrBg: '#ffffff',
       qrFg: '#14524f',
     }
@@ -55,19 +54,19 @@ export function getThemeTokens(theme: Theme): ThemeTokens {
   return {
     bg: '#14524f',
     text: '#ffffff',
-    textSoft: 'rgba(255,255,255,0.7)',
+    textSoft: 'rgba(255,255,255,0.75)',
     qrBg: '#ffffff',
     qrFg: '#14524f',
   }
 }
 
-const PhoneIcon = ({ size = 16, color }: { size?: number; color: string }) => (
+const PhoneIcon = ({ size = 18, color }: { size?: number; color: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
     <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.24.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.21 2.2z" />
   </svg>
 )
 
-const MailIcon = ({ size = 16, color }: { size?: number; color: string }) => (
+const MailIcon = ({ size = 18, color }: { size?: number; color: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
     <rect x="3" y="5" width="18" height="14" rx="2" />
     <path d="M3 7l9 6 9-6" />
@@ -92,14 +91,14 @@ const Photo = ({ url, size }: { url: string; size: number }) => {
   )
 }
 
-const Disclaimer = ({ text, color, align = 'left' }: { text: string; color: string; align?: 'left' | 'center' }) => (
+const Disclaimer = ({ text, color, align = 'center' }: { text: string; color: string; align?: 'left' | 'center' }) => (
   <p
     style={{
-      fontSize: '0.55rem',
+      fontSize: '0.7rem',
       fontStyle: 'italic',
       color,
       margin: 0,
-      lineHeight: 1.4,
+      lineHeight: 1.35,
       letterSpacing: '0.2px',
       textAlign: align,
     }}
@@ -127,18 +126,18 @@ const QRBlock = ({ link, size, qrBg, qrFg, soft }: { link: string; size: number;
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '0.7rem',
+        fontSize: '0.75rem',
         color: soft,
         textAlign: 'center' as const,
       }}
     >
-      QR Code
+      QR
     </div>
   )
 }
 
 const ContactRow = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.85rem', lineHeight: 1.2 }}>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1rem', lineHeight: 1.2 }}>
     {icon}
     <span style={{ wordBreak: 'break-all' }}>{text}</span>
   </div>
@@ -152,9 +151,9 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
   const isPortrait = orientation === 'portrait'
   const tk = getThemeTokens(theme)
 
-  // ─── BACK SIDE — full bg + centered large logo ───
+  // ─── BACK SIDE — full bg, big centered logo ───
   if (side === 'back') {
-    const logoW = isPortrait ? 320 : 460
+    const logoW = isPortrait ? width * 0.92 : width * 0.78
     return (
       <div
         ref={ref}
@@ -180,18 +179,19 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
     )
   }
 
-  // ─── FRONT SIDE ───
+  // ─── FRONT ───
   const NameBlock = ({ size, align = 'left' }: { size: number; align?: 'left' | 'center' }) => (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
-        lineHeight: 1.05,
+        gap: '6px',
         fontWeight: 700,
         letterSpacing: '-0.5px',
         textAlign: align,
         wordBreak: 'break-word',
         fontSize: `${size}px`,
+        lineHeight: 1,
       }}
     >
       <span>{firstName || (lastName ? '' : '—')}</span>
@@ -216,51 +216,65 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        padding: isPortrait ? '32px 28px 22px 28px' : '26px 32px 18px 32px',
+        padding: isPortrait ? '30px 28px 22px 28px' : '24px 32px 16px 32px',
       }}
     >
       {isPortrait ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, gap: '16px' }}>
-          <TupperwareWordmark color={tk.text} width={200} registered={false} />
-          {photoUrl && <Photo url={photoUrl} size={120} />}
-          <NameBlock size={26} align="center" />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-start' }}>
+        // ─── PORTRAIT — vertically distributed, centered ───
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, justifyContent: 'space-between' }}>
+          <TupperwareWordmark color={tk.text} width={260} registered={false} />
+
+          {photoUrl && <Photo url={photoUrl} size={130} />}
+
+          <NameBlock size={32} align="center" />
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'flex-start' }}>
             {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
             {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
           </div>
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 0 }}>
-            <QRBlock link={affiliateLink} size={170} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
-          </div>
+
+          <QRBlock link={affiliateLink} size={170} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
+
           <Disclaimer text={t.card.legalText} color={tk.textSoft} align="center" />
         </div>
       ) : (
+        // ─── LANDSCAPE — 3 columns vertically centered: logo | content | QR ───
         <>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <TupperwareWordmark color={tk.text} width={170} registered={false} />
-            <div style={{ position: 'absolute', top: '24px', right: '32px' }}>
-              <QRBlock link={affiliateLink} size={120} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
-            </div>
-          </div>
           <div
             style={{
               flex: 1,
               display: 'flex',
               alignItems: 'center',
               gap: '20px',
-              paddingRight: '150px',
-              marginTop: '8px',
+              minHeight: 0,
             }}
           >
-            {photoUrl && <Photo url={photoUrl} size={120} />}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', minWidth: 0, flex: 1 }}>
-              <NameBlock size={26} />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
-                {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
+            {/* Left — logo vertically centered */}
+            <div style={{ flexShrink: 0 }}>
+              <TupperwareWordmark color={tk.text} width={210} registered={false} />
+            </div>
+
+            {/* Middle — photo + name + contacts */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1, minWidth: 0 }}>
+              {photoUrl && <Photo url={photoUrl} size={130} />}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', minWidth: 0, flex: 1 }}>
+                <NameBlock size={28} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
+                  {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
+                </div>
               </div>
             </div>
+
+            {/* Right — QR */}
+            <div style={{ flexShrink: 0 }}>
+              <QRBlock link={affiliateLink} size={130} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
+            </div>
           </div>
-          <Disclaimer text={t.card.legalText} color={tk.textSoft} />
+
+          <div style={{ marginTop: '8px' }}>
+            <Disclaimer text={t.card.legalText} color={tk.textSoft} align="center" />
+          </div>
         </>
       )}
     </div>
