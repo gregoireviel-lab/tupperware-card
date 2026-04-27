@@ -24,16 +24,17 @@ const QR_SIZE = 168
 
 // Tupperware brand teal — sampled from official wordmark PNG (#14524f)
 const BRAND = '#14524f'
-const BRAND_SOFT = 'rgba(20,82,79,0.65)'
+const TEXT = '#ffffff'
+const TEXT_SOFT = 'rgba(255,255,255,0.75)'
 
 const PhoneIcon = ({ size = 18 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill={BRAND} xmlns="http://www.w3.org/2000/svg">
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={TEXT} xmlns="http://www.w3.org/2000/svg">
     <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.24.2 2.45.57 3.57a1 1 0 01-.24 1.02l-2.21 2.2z" />
   </svg>
 )
 
 const MailIcon = ({ size = 18 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={BRAND} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={TEXT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
     <rect x="3" y="5" width="18" height="14" rx="2" />
     <path d="M3 7l9 6 9-6" />
   </svg>
@@ -52,13 +53,13 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
       style={{
         width: `${CARD_W}px`,
         height: `${CARD_H}px`,
-        backgroundColor: '#ffffff',
+        backgroundColor: BRAND,
         borderRadius: '18px',
         position: 'relative',
         overflow: 'hidden',
         fontFamily: "'Trebuchet MS', Arial, Helvetica, sans-serif",
-        color: BRAND,
-        boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+        color: TEXT,
+        boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
         boxSizing: 'border-box',
         padding: '32px 36px 24px 36px',
         display: 'flex',
@@ -75,7 +76,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
         }}
       >
         {affiliateLink ? (
-          <div style={{ lineHeight: 0 }}>
+          <div style={{ backgroundColor: '#ffffff', padding: '8px', borderRadius: '10px', lineHeight: 0 }}>
             <QRCodeSVG value={affiliateLink} size={QR_SIZE} level="M" fgColor={BRAND} bgColor="#ffffff" />
           </div>
         ) : (
@@ -83,14 +84,14 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
             style={{
               width: `${QR_SIZE}px`,
               height: `${QR_SIZE}px`,
-              backgroundColor: 'rgba(20,82,79,0.06)',
-              borderRadius: '6px',
-              border: `2px dashed ${BRAND_SOFT}`,
+              backgroundColor: 'rgba(255,255,255,0.10)',
+              borderRadius: '10px',
+              border: `2px dashed ${TEXT_SOFT}`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '0.7rem',
-              color: BRAND_SOFT,
+              color: TEXT_SOFT,
               textAlign: 'center' as const,
             }}
           >
@@ -101,7 +102,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
 
       {/* Top-left: Tupperware logo */}
       <div style={{ marginBottom: '18px', zIndex: 1 }}>
-        <TupperwareWordmark color={BRAND} width={180} />
+        <TupperwareWordmark color={TEXT} width={180} />
       </div>
 
       {/* Middle: optional photo + name + contact */}
@@ -121,7 +122,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
               width: '110px',
               height: '110px',
               borderRadius: '50%',
-              border: `2.5px solid ${BRAND}`,
+              border: `2.5px solid rgba(255,255,255,0.45)`,
               backgroundImage: `url(${photoUrl})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
@@ -137,7 +138,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
               fontSize: '2.2rem',
               fontWeight: 700,
               lineHeight: 1.05,
-              color: BRAND,
+              color: TEXT,
               letterSpacing: '-0.5px',
               wordBreak: 'break-word',
             }}
@@ -163,7 +164,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
 
           {/* ID — discreet under contacts */}
           {id && (
-            <div style={{ fontSize: '0.78rem', color: BRAND_SOFT, marginTop: '2px' }}>
+            <div style={{ fontSize: '0.78rem', color: TEXT_SOFT, marginTop: '2px' }}>
               {t.card.id} {id}
             </div>
           )}
@@ -177,7 +178,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
             fontSize: '0.55rem',
             fontStyle: 'italic',
             textTransform: 'uppercase',
-            color: BRAND_SOFT,
+            color: TEXT_SOFT,
             margin: 0,
             lineHeight: 1.45,
             letterSpacing: '0.3px',
