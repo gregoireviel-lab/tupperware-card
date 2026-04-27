@@ -33,7 +33,8 @@ export default function Page() {
     setPhoneCountry(getCountryForLocale(detected))
   }, [])
 
-  const cardRef = useRef<HTMLDivElement>(null)
+  const cardFrontRef = useRef<HTMLDivElement>(null)
+  const cardBackRef = useRef<HTMLDivElement>(null)
   const t = translations[locale]
 
   function handleChange(field: string, value: string) {
@@ -48,10 +49,10 @@ export default function Page() {
   }
 
   async function handleDownload() {
-    if (!cardRef.current) return
+    if (!cardFrontRef.current || !cardBackRef.current) return
     setIsDownloading(true)
     try {
-      await downloadCardAsPDF(cardRef.current, orientation)
+      await downloadCardAsPDF(cardFrontRef.current, cardBackRef.current, orientation)
     } finally {
       setIsDownloading(false)
     }
@@ -81,7 +82,6 @@ export default function Page() {
     t,
   }
   const previewCardProps = { ...baseCardProps, side }
-  const downloadCardProps = { ...baseCardProps, side }
 
   const scale = 0.75
   const { width: cardW, height: cardH } = getCardSize(orientation)
@@ -190,7 +190,8 @@ export default function Page() {
       </div>
 
       <div style={{ position: 'fixed', left: '-9999px', top: 0, pointerEvents: 'none', zIndex: -1 }}>
-        <BusinessCard ref={cardRef} {...downloadCardProps} />
+        <BusinessCard ref={cardFrontRef} {...baseCardProps} side="front" />
+        <BusinessCard ref={cardBackRef} {...baseCardProps} side="back" />
       </div>
 
       <div id="print-sheet" className="print-only" data-orientation={orientation}>

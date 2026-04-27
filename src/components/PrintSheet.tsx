@@ -9,7 +9,7 @@ interface PrintSheetProps {
   baseCardProps: BaseCardProps
 }
 
-const SLOT_COUNT = 10
+const SLOT_COUNT = 8
 
 export default function PrintSheet({ baseCardProps }: PrintSheetProps) {
   return (

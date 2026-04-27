@@ -27,6 +27,10 @@
     size: A4 portrait;
     margin: 10mm;
   }
+  @page landscapePaper {
+    size: A4 landscape;
+    margin: 10mm;
+  }
 
   /* Force all backgrounds to print */
   * {
@@ -43,7 +47,7 @@
     direction: ltr;
   }
 
-  /* Landscape: 2×5 grid (85mm × 54mm) */
+  /* Landscape cards: 2 cols × 4 rows = 8 on portrait A4 */
   #print-sheet[data-orientation="landscape"] .print-grid {
     display: grid !important;
     grid-template-columns: repeat(2, 85mm);
@@ -64,10 +68,13 @@
     box-shadow: none !important;
   }
 
-  /* Portrait: 3×3 grid (54mm × 85mm) */
+  /* Portrait cards: 4 cols × 2 rows = 8 on landscape A4 paper */
+  #print-sheet[data-orientation="portrait"] {
+    page: landscapePaper;
+  }
   #print-sheet[data-orientation="portrait"] .print-grid {
     display: grid !important;
-    grid-template-columns: repeat(3, 54mm);
+    grid-template-columns: repeat(4, 54mm);
     gap: 5mm;
     width: fit-content;
     margin: 0 auto;
