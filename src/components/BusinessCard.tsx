@@ -20,7 +20,9 @@ export interface CardProps {
 // At 8× pixel density: 684.8 ≈ 684px × 432px
 export const CARD_W = 684
 export const CARD_H = 432
-const QR_SIZE = 168
+const QR_SIZE = 150
+const PHOTO_SIZE = 150
+const LOGO_W = 220
 
 // Tupperware brand teal — sampled from official wordmark PNG (#14524f)
 const BRAND = '#14524f'
@@ -61,118 +63,113 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
         color: TEXT,
         boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
         boxSizing: 'border-box',
-        padding: '32px 36px 24px 36px',
+        padding: '24px 28px 18px 28px',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      {/* QR code — absolute top-right */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '32px',
-          right: '36px',
-          zIndex: 2,
-        }}
-      >
-        {affiliateLink ? (
-          <div style={{ backgroundColor: '#ffffff', padding: '8px', borderRadius: '10px', lineHeight: 0 }}>
-            <QRCodeSVG value={affiliateLink} size={QR_SIZE} level="M" fgColor={BRAND} bgColor="#ffffff" />
-          </div>
-        ) : (
+      {/* Main content row: left (photo + info) | right (logo + QR) */}
+      <div style={{ display: 'flex', gap: '20px', flex: 1, minHeight: 0 }}>
+        {/* LEFT — photo + name + contact */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '18px', flex: 1, minWidth: 0 }}>
+          {/* Photo (optional) */}
           <div
             style={{
-              width: `${QR_SIZE}px`,
-              height: `${QR_SIZE}px`,
-              backgroundColor: 'rgba(255,255,255,0.10)',
-              borderRadius: '10px',
-              border: `2px dashed ${TEXT_SOFT}`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '0.7rem',
-              color: TEXT_SOFT,
-              textAlign: 'center' as const,
-            }}
-          >
-            QR Code
-          </div>
-        )}
-      </div>
-
-      {/* Top-left: Tupperware logo */}
-      <div style={{ marginBottom: '18px', zIndex: 1 }}>
-        <TupperwareWordmark color={TEXT} width={180} />
-      </div>
-
-      {/* Middle: optional photo + name + contact */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '20px',
-          paddingRight: `${QR_SIZE + 24}px`,
-          flex: 1,
-          zIndex: 1,
-        }}
-      >
-        {photoUrl && (
-          <div
-            style={{
-              width: '110px',
-              height: '110px',
+              width: `${PHOTO_SIZE}px`,
+              height: `${PHOTO_SIZE}px`,
               borderRadius: '50%',
-              border: `2.5px solid rgba(255,255,255,0.45)`,
-              backgroundImage: `url(${photoUrl})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
               flexShrink: 0,
+              ...(photoUrl
+                ? {
+                    border: '2.5px solid rgba(255,255,255,0.45)',
+                    backgroundImage: `url(${photoUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }
+                : {
+                    border: '2px dashed rgba(255,255,255,0.25)',
+                    backgroundColor: 'rgba(255,255,255,0.05)',
+                  }),
             }}
           />
-        )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', minWidth: 0 }}>
-          {/* Name */}
-          <div
-            style={{
-              fontSize: '2.2rem',
-              fontWeight: 700,
-              lineHeight: 1.05,
-              color: TEXT,
-              letterSpacing: '-0.5px',
-              wordBreak: 'break-word',
-            }}
-          >
-            {fullName || '—'}
+          {/* Name + contact */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: 0, flex: 1 }}>
+            <div
+              style={{
+                fontSize: '1.7rem',
+                fontWeight: 700,
+                lineHeight: 1.05,
+                color: TEXT,
+                letterSpacing: '-0.5px',
+                wordBreak: 'break-word',
+              }}
+            >
+              {fullName || '—'}
+            </div>
+
+            {phone && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
+                <PhoneIcon size={16} />
+                <span>{phone}</span>
+              </div>
+            )}
+
+            {email && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
+                <MailIcon size={16} />
+                <span style={{ wordBreak: 'break-all' }}>{email}</span>
+              </div>
+            )}
+
+            {id && (
+              <div style={{ fontSize: '0.72rem', color: TEXT_SOFT, marginTop: '2px' }}>
+                {t.card.id} {id}
+              </div>
+            )}
           </div>
+        </div>
 
-          {/* Phone (optional) */}
-          {phone && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1rem' }}>
-              <PhoneIcon />
-              <span>{phone}</span>
+        {/* RIGHT — logo (top) + QR (below) */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: '14px',
+            flexShrink: 0,
+          }}
+        >
+          <TupperwareWordmark color={TEXT} width={LOGO_W} />
+
+          {affiliateLink ? (
+            <div style={{ backgroundColor: '#ffffff', padding: '7px', borderRadius: '8px', lineHeight: 0 }}>
+              <QRCodeSVG value={affiliateLink} size={QR_SIZE} level="M" fgColor={BRAND} bgColor="#ffffff" />
             </div>
-          )}
-
-          {/* Email (optional) */}
-          {email && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1rem' }}>
-              <MailIcon />
-              <span style={{ wordBreak: 'break-all' }}>{email}</span>
-            </div>
-          )}
-
-          {/* ID — discreet under contacts */}
-          {id && (
-            <div style={{ fontSize: '0.78rem', color: TEXT_SOFT, marginTop: '2px' }}>
-              {t.card.id} {id}
+          ) : (
+            <div
+              style={{
+                width: `${QR_SIZE + 14}px`,
+                height: `${QR_SIZE + 14}px`,
+                backgroundColor: 'rgba(255,255,255,0.10)',
+                borderRadius: '8px',
+                border: `2px dashed ${TEXT_SOFT}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.7rem',
+                color: TEXT_SOFT,
+                textAlign: 'center' as const,
+              }}
+            >
+              QR Code
             </div>
           )}
         </div>
       </div>
 
       {/* Bottom: disclaimer */}
-      <div style={{ zIndex: 1, marginTop: '12px' }}>
+      <div style={{ marginTop: '10px' }}>
         <p
           style={{
             fontSize: '0.55rem',
@@ -180,7 +177,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
             textTransform: 'uppercase',
             color: TEXT_SOFT,
             margin: 0,
-            lineHeight: 1.45,
+            lineHeight: 1.4,
             letterSpacing: '0.3px',
           }}
         >
