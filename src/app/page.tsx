@@ -26,7 +26,7 @@ export default function Page() {
 
   useEffect(() => {
     const lang = navigator.language.split('-')[0].toLowerCase()
-    const supported = ['fr', 'it', 'de', 'en'] as Locale[]
+    const supported = ['fr', 'it', 'de', 'en', 'pl'] as Locale[]
     setLocale(supported.includes(lang as Locale) ? (lang as Locale) : 'en')
   }, [])
 

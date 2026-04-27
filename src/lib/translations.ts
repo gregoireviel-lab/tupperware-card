@@ -1,4 +1,4 @@
-export type Locale = 'fr' | 'it' | 'de' | 'en'
+export type Locale = 'fr' | 'it' | 'de' | 'en' | 'pl'
 
 export interface Translation {
   ui: {
@@ -204,6 +204,47 @@ export const translations: Record<Locale, Translation> = {
         'Home sales representative for food containers, toys and household items',
       brand: 'Brand',
       subtitle: 'OOBO SA, authorised distributor of TUPPERWARE products',
+    },
+  },
+  pl: {
+    ui: {
+      title: 'Generator wizytówek Tupperware',
+      preview: 'Podgląd',
+      download: 'Pobierz PDF',
+      print: 'Drukuj arkusz A4 (10 kart)',
+      langSwitcher: 'Język',
+    },
+    form: {
+      id: 'Identyfikator',
+      firstName: 'Imię',
+      lastName: 'Nazwisko',
+      phone: 'Telefon',
+      email: 'E-mail',
+      optional: 'opcjonalne',
+      affiliateLink: 'Link partnerski',
+      photo: 'Zdjęcie',
+      uploadPhoto: 'Wgraj zdjęcie',
+      orientation: 'Format',
+      landscape: 'Poziomy',
+      portrait: 'Pionowy',
+      theme: 'Kolor',
+      themeTeal: 'Ciemnozielony',
+      themeMint: 'Jasnozielony',
+      flipFront: 'Pokaż przód',
+      flipBack: 'Pokaż tył',
+      testQR: 'Testuj link QR',
+    },
+    card: {
+      id: 'ID :',
+      firstName: 'Imię :',
+      lastName: 'Nazwisko :',
+      issuedOn: 'Data wydania :',
+      expiresOn: 'Ważna do :',
+      companyDesc: 'OOBO SA, autoryzowany dystrybutor produktów TUPPERWARE',
+      legalText:
+        'Przedstawiciel sprzedaży domowej pojemników na żywność, zabawek i artykułów gospodarstwa domowego',
+      brand: 'Brand',
+      subtitle: 'OOBO SA, autoryzowany dystrybutor produktów TUPPERWARE',
     },
   },
 }

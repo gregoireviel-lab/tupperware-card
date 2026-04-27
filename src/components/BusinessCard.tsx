@@ -264,33 +264,27 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
           </div>
         </div>
       ) : (
-        // ─── LANDSCAPE — logo top-right, name + contacts under it ───
+        // ─── LANDSCAPE — logo top-left, name & contacts under, QR centered right ───
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '24px 32px 18px 32px', boxSizing: 'border-box' }}>
-          <div style={{ display: 'flex', alignItems: 'stretch', gap: '24px', flex: 1, minHeight: 0 }}>
-            {/* Left — photo (top) + QR (under) */}
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', flexShrink: 0 }}>
-              {photoUrl && <Photo url={photoUrl} size={130} borderColor={photoBorder} />}
-              <QRBlock link={affiliateLink} size={130} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flex: 1, minHeight: 0 }}>
+            {/* Left content column: logo, name+photo, contacts */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', flex: 1, minWidth: 0, alignSelf: 'stretch', justifyContent: 'space-between' }}>
+              <TupperwareWordmark color={tk.text} width={210} registered={false} />
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                {photoUrl && <Photo url={photoUrl} size={90} borderColor={photoBorder} />}
+                <NameBlock size={30} />
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
+                {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
+              </div>
             </div>
 
-            {/* Right — logo top, name middle, contacts bottom (right-aligned) */}
-            <div
-              style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-end',
-                justifyContent: 'space-between',
-                minWidth: 0,
-                gap: '12px',
-              }}
-            >
-              <TupperwareWordmark color={tk.text} width={210} registered={false} />
-              <NameBlock size={30} align="right" />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-end' }}>
-                {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} justify="flex-end" />}
-                {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} justify="flex-end" />}
-              </div>
+            {/* Right — QR vertically centered, same size as portrait */}
+            <div style={{ flexShrink: 0 }}>
+              <QRBlock link={affiliateLink} size={170} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
             </div>
           </div>
 
