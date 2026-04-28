@@ -1,4 +1,4 @@
-export type Locale = 'fr' | 'it' | 'de' | 'en' | 'pl'
+export type Locale = 'fr' | 'it' | 'de' | 'en' | 'pl' | 'da' | 'sv' | 'no' | 'fi'
 
 export interface Translation {
   ui: {
@@ -11,6 +11,7 @@ export interface Translation {
   }
   form: {
     id: string
+    idHint: string
     firstName: string
     lastName: string
     phone: string
@@ -54,7 +55,8 @@ export const translations: Record<Locale, Translation> = {
         'Ces cartes de visite sont générées exclusivement pour les vendeuses agréées Tupperware OOBO SA dans le cadre de leur activité. Usage personnel uniquement — toute reproduction ou distribution à des tiers non autorisés est interdite.',
     },
     form: {
-      id: 'Identifiant',
+      id: 'Numéro consultant',
+      idHint: 'Votre numéro de consultant·e Tupperware (5 ou 6 chiffres) — utilisé pour générer le lien d\'affiliation du QR code',
       firstName: 'Prénom',
       lastName: 'Nom',
       phone: 'Téléphone',
@@ -81,7 +83,7 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Expire le :',
       companyDesc: 'OOBO SA, distributeur agréé des produits TUPPERWARE',
       legalText:
-        'Chargé des ventes à domicile de contenants alimentaires, jouets et articles ménagers',
+        'Consultant·e Tupperware indépendant·e — vente à domicile',
       brand: 'Brand',
       subtitle: 'OOBO SA, distributeur agréé des produits TUPPERWARE',
     },
@@ -97,7 +99,8 @@ export const translations: Record<Locale, Translation> = {
         'Queste tessere sono generate esclusivamente per le venditrici autorizzate Tupperware OOBO SA nell\'ambito della loro attività. Solo per uso personale — qualsiasi riproduzione o distribuzione a terzi non autorizzati è vietata.',
     },
     form: {
-      id: 'Identificativo',
+      id: 'Numero consulente',
+      idHint: 'Il tuo numero di consulente Tupperware (5 o 6 cifre) — usato per generare il link affiliato del QR',
       firstName: 'Nome',
       lastName: 'Cognome',
       phone: 'Telefono',
@@ -124,7 +127,7 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Scade il :',
       companyDesc: 'OOBO SA, distributore autorizzato dei prodotti TUPPERWARE',
       legalText:
-        'Incaricato alle vendite a domicilio di contenitori per alimenti, giocattoli e articoli casalinghi',
+        'Consulente Tupperware indipendente — vendita a domicilio',
       brand: 'Brand',
       subtitle: 'OOBO SA, distributore autorizzato dei prodotti TUPPERWARE',
     },
@@ -140,7 +143,8 @@ export const translations: Record<Locale, Translation> = {
         'Diese Visitenkarten werden ausschließlich für autorisierte Tupperware OOBO SA-Verkäuferinnen im Rahmen ihrer Tätigkeit erstellt. Nur für den persönlichen Gebrauch — jegliche Reproduktion oder Weitergabe an unbefugte Dritte ist untersagt.',
     },
     form: {
-      id: 'Kennung',
+      id: 'Beraternummer',
+      idHint: 'Ihre Tupperware-Beraternummer (5 oder 6 Ziffern) — wird zur Generierung des QR-Affiliate-Links verwendet',
       firstName: 'Vorname',
       lastName: 'Nachname',
       phone: 'Telefon',
@@ -167,7 +171,7 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Läuft ab am :',
       companyDesc: 'OOBO SA, autorisierter Vertreiber von TUPPERWARE-Produkten',
       legalText:
-        'Verkaufsbeauftragter für Haustürverkauf von Lebensmittelbehältern, Spielzeug und Haushaltswaren',
+        'Selbstständige·r Tupperware-Berater·in — Direktvertrieb',
       brand: 'Brand',
       subtitle: 'OOBO SA, autorisierter Vertreiber von TUPPERWARE-Produkten',
     },
@@ -183,7 +187,8 @@ export const translations: Record<Locale, Translation> = {
         'These business cards are generated exclusively for authorised Tupperware OOBO SA sellers in the course of their activity. Personal use only — any reproduction or distribution to unauthorised third parties is prohibited.',
     },
     form: {
-      id: 'ID',
+      id: 'Consultant Number',
+      idHint: 'Your Tupperware consultant number (5 or 6 digits) — used to generate the affiliate link in the QR code',
       firstName: 'First Name',
       lastName: 'Last Name',
       phone: 'Phone',
@@ -210,7 +215,7 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Expires on :',
       companyDesc: 'OOBO SA, authorised distributor of TUPPERWARE products',
       legalText:
-        'Home sales representative for food containers, toys and household items',
+        'Independent Tupperware consultant — direct sales',
       brand: 'Brand',
       subtitle: 'OOBO SA, authorised distributor of TUPPERWARE products',
     },
@@ -226,7 +231,8 @@ export const translations: Record<Locale, Translation> = {
         'Te wizytówki są generowane wyłącznie dla autoryzowanych sprzedawców Tupperware OOBO SA w ramach ich działalności. Tylko do użytku osobistego — wszelkie powielanie lub dystrybucja osobom trzecim bez upoważnienia jest zabronione.',
     },
     form: {
-      id: 'Identyfikator',
+      id: 'Numer konsultanta',
+      idHint: 'Twój numer konsultanta Tupperware (5 lub 6 cyfr) — używany do generowania linku partnerskiego w kodzie QR',
       firstName: 'Imię',
       lastName: 'Nazwisko',
       phone: 'Telefon',
@@ -253,9 +259,185 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Ważna do :',
       companyDesc: 'OOBO SA, autoryzowany dystrybutor produktów TUPPERWARE',
       legalText:
-        'Przedstawiciel sprzedaży domowej pojemników na żywność, zabawek i artykułów gospodarstwa domowego',
+        'Niezależny konsultant Tupperware — sprzedaż bezpośrednia',
       brand: 'Brand',
       subtitle: 'OOBO SA, autoryzowany dystrybutor produktów TUPPERWARE',
+    },
+  },
+  da: {
+    ui: {
+      title: 'Tupperware Visitkortgenerator',
+      preview: 'Forhåndsvisning',
+      download: 'Download PDF',
+      print: 'Udskriv A4-ark (8 kort)',
+      langSwitcher: 'Sprog',
+      pageDisclaimer:
+        'Disse visitkort er udelukkende genereret til autoriserede Tupperware OOBO SA-konsulenter i forbindelse med deres aktivitet. Kun til personlig brug — enhver reproduktion eller distribution til uautoriserede tredjeparter er forbudt.',
+    },
+    form: {
+      id: 'Konsulentnummer',
+      idHint: 'Dit Tupperware-konsulentnummer (5 eller 6 cifre) — bruges til at generere partnerlinket i QR-koden',
+      firstName: 'Fornavn',
+      lastName: 'Efternavn',
+      phone: 'Telefon',
+      email: 'E-mail',
+      optional: 'valgfri',
+      affiliateLink: 'Partnerlink',
+      photo: 'Foto',
+      uploadPhoto: 'Upload foto',
+      orientation: 'Format',
+      landscape: 'Liggende',
+      portrait: 'Stående',
+      theme: 'Farve',
+      themeTeal: 'Mørkegrøn',
+      themeMint: 'Lysegrøn',
+      flipFront: 'Vis forside',
+      flipBack: 'Vis bagside',
+      testQR: 'Test QR-link',
+    },
+    card: {
+      id: 'ID :',
+      firstName: 'Fornavn :',
+      lastName: 'Efternavn :',
+      issuedOn: 'Udstedt :',
+      expiresOn: 'Udløber :',
+      companyDesc: 'OOBO SA, autoriseret distributør af TUPPERWARE-produkter',
+      legalText:
+        'Uafhængig Tupperware-konsulent — direkte salg',
+      brand: 'Brand',
+      subtitle: 'OOBO SA, autoriseret distributør af TUPPERWARE-produkter',
+    },
+  },
+  sv: {
+    ui: {
+      title: 'Tupperware Visitkortsgenerator',
+      preview: 'Förhandsvisning',
+      download: 'Ladda ner PDF',
+      print: 'Skriv ut A4-ark (8 kort)',
+      langSwitcher: 'Språk',
+      pageDisclaimer:
+        'Dessa visitkort genereras uteslutande för auktoriserade Tupperware OOBO SA-konsulenter inom ramen för deras verksamhet. Endast för personligt bruk — all reproduktion eller distribution till obehöriga tredje parter är förbjuden.',
+    },
+    form: {
+      id: 'Konsultnummer',
+      idHint: 'Ditt Tupperware-konsultnummer (5 eller 6 siffror) — används för att generera partnerlänken i QR-koden',
+      firstName: 'Förnamn',
+      lastName: 'Efternamn',
+      phone: 'Telefon',
+      email: 'E-post',
+      optional: 'valfri',
+      affiliateLink: 'Partnerlänk',
+      photo: 'Foto',
+      uploadPhoto: 'Ladda upp foto',
+      orientation: 'Format',
+      landscape: 'Liggande',
+      portrait: 'Stående',
+      theme: 'Färg',
+      themeTeal: 'Mörkgrön',
+      themeMint: 'Ljusgrön',
+      flipFront: 'Visa framsida',
+      flipBack: 'Visa baksida',
+      testQR: 'Testa QR-länk',
+    },
+    card: {
+      id: 'ID :',
+      firstName: 'Förnamn :',
+      lastName: 'Efternamn :',
+      issuedOn: 'Utfärdat :',
+      expiresOn: 'Giltigt till :',
+      companyDesc: 'OOBO SA, auktoriserad återförsäljare av TUPPERWARE-produkter',
+      legalText:
+        'Oberoende Tupperware-konsult — direktförsäljning',
+      brand: 'Brand',
+      subtitle: 'OOBO SA, auktoriserad återförsäljare av TUPPERWARE-produkter',
+    },
+  },
+  no: {
+    ui: {
+      title: 'Tupperware Visittkortgenerator',
+      preview: 'Forhåndsvisning',
+      download: 'Last ned PDF',
+      print: 'Skriv ut A4-ark (8 kort)',
+      langSwitcher: 'Språk',
+      pageDisclaimer:
+        'Disse visittkortene genereres utelukkende for autoriserte Tupperware OOBO SA-konsulenter i forbindelse med deres virksomhet. Kun til personlig bruk — enhver reproduksjon eller distribusjon til uautoriserte tredjeparter er forbudt.',
+    },
+    form: {
+      id: 'Konsulentnummer',
+      idHint: 'Ditt Tupperware-konsulentnummer (5 eller 6 sifre) — brukes til å generere partnerlenken i QR-koden',
+      firstName: 'Fornavn',
+      lastName: 'Etternavn',
+      phone: 'Telefon',
+      email: 'E-post',
+      optional: 'valgfri',
+      affiliateLink: 'Partnerlenke',
+      photo: 'Foto',
+      uploadPhoto: 'Last opp foto',
+      orientation: 'Format',
+      landscape: 'Liggende',
+      portrait: 'Stående',
+      theme: 'Farge',
+      themeTeal: 'Mørkegrønn',
+      themeMint: 'Lysegrønn',
+      flipFront: 'Vis forside',
+      flipBack: 'Vis bakside',
+      testQR: 'Test QR-lenke',
+    },
+    card: {
+      id: 'ID :',
+      firstName: 'Fornavn :',
+      lastName: 'Etternavn :',
+      issuedOn: 'Utstedt :',
+      expiresOn: 'Utløper :',
+      companyDesc: 'OOBO SA, autorisert distributør av TUPPERWARE-produkter',
+      legalText:
+        'Uavhengig Tupperware-konsulent — direktesalg',
+      brand: 'Brand',
+      subtitle: 'OOBO SA, autorisert distributør av TUPPERWARE-produkter',
+    },
+  },
+  fi: {
+    ui: {
+      title: 'Tupperware-käyntikorttigeneraattori',
+      preview: 'Esikatselu',
+      download: 'Lataa PDF',
+      print: 'Tulosta A4-arkki (8 korttia)',
+      langSwitcher: 'Kieli',
+      pageDisclaimer:
+        'Nämä käyntikortit on luotu yksinomaan valtuutetuille Tupperware OOBO SA -konsulteille heidän toimintansa puitteissa. Vain henkilökohtaiseen käyttöön — kaikki kopiointi tai jakelu valtuuttamattomille kolmansille osapuolille on kielletty.',
+    },
+    form: {
+      id: 'Konsulttinumero',
+      idHint: 'Tupperware-konsulttinumerosi (5 tai 6 numeroa) — käytetään QR-koodin kumppanilinkin luomiseen',
+      firstName: 'Etunimi',
+      lastName: 'Sukunimi',
+      phone: 'Puhelin',
+      email: 'Sähköposti',
+      optional: 'valinnainen',
+      affiliateLink: 'Kumppanilinkki',
+      photo: 'Valokuva',
+      uploadPhoto: 'Lataa kuva',
+      orientation: 'Muoto',
+      landscape: 'Vaaka',
+      portrait: 'Pysty',
+      theme: 'Väri',
+      themeTeal: 'Tummanvihreä',
+      themeMint: 'Vaaleanvihreä',
+      flipFront: 'Näytä etupuoli',
+      flipBack: 'Näytä takapuoli',
+      testQR: 'Testaa QR-linkki',
+    },
+    card: {
+      id: 'ID :',
+      firstName: 'Etunimi :',
+      lastName: 'Sukunimi :',
+      issuedOn: 'Myönnetty :',
+      expiresOn: 'Voimassa :',
+      companyDesc: 'OOBO SA, TUPPERWARE-tuotteiden valtuutettu jakelija',
+      legalText:
+        'Itsenäinen Tupperware-konsultti — suoramyynti',
+      brand: 'Brand',
+      subtitle: 'OOBO SA, TUPPERWARE-tuotteiden valtuutettu jakelija',
     },
   },
 }

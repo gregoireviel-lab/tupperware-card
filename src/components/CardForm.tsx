@@ -127,6 +127,7 @@ export default function CardForm({
       {/* ID */}
       <div>
         <label className={labelClass}>{t.form.id}</label>
+        <p className="text-xs text-zinc-500 mb-1.5 leading-snug">{t.form.idHint}</p>
         <input
           type="text"
           inputMode="numeric"
@@ -134,7 +135,7 @@ export default function CardForm({
           value={id}
           maxLength={6}
           onChange={(e) => onChange('id', e.target.value.replace(/\D/g, '').slice(0, 6))}
-          placeholder="ex: 96541"
+          placeholder="96541"
         />
         {id.length > 0 && id.length < 5 && (
           <p className="text-xs text-red-500 mt-1">{id.length}/6 — min. 5 digits</p>

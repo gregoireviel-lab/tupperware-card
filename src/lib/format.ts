@@ -48,6 +48,10 @@ export const COUNTRIES: Country[] = [
   { code: 'PT', dial: '+351', flag: '🇵🇹', label: 'Portugal' },
   { code: 'GB', dial: '+44', flag: '🇬🇧', label: 'United Kingdom' },
   { code: 'PL', dial: '+48', flag: '🇵🇱', label: 'Poland' },
+  { code: 'DK', dial: '+45', flag: '🇩🇰', label: 'Denmark' },
+  { code: 'SE', dial: '+46', flag: '🇸🇪', label: 'Sweden' },
+  { code: 'NO', dial: '+47', flag: '🇳🇴', label: 'Norway' },
+  { code: 'FI', dial: '+358', flag: '🇫🇮', label: 'Finland' },
 ]
 
 export const DEFAULT_COUNTRY: Country = COUNTRIES[0] // BE
@@ -59,6 +63,10 @@ export function getCountryForLocale(locale: string): Country {
     de: 'DE',
     en: 'GB',
     pl: 'PL',
+    da: 'DK',
+    sv: 'SE',
+    no: 'NO',
+    fi: 'FI',
   }
   const code = map[locale]
   return COUNTRIES.find((c) => c.code === code) ?? DEFAULT_COUNTRY

@@ -27,8 +27,10 @@ export default function Page() {
 
   useEffect(() => {
     const lang = navigator.language.split('-')[0].toLowerCase()
-    const supported = ['fr', 'it', 'de', 'en', 'pl'] as Locale[]
-    const detected = supported.includes(lang as Locale) ? (lang as Locale) : 'en'
+    const supported = ['fr', 'it', 'de', 'en', 'pl', 'da', 'sv', 'no', 'fi'] as Locale[]
+    // Norwegian browsers report "nb" or "nn" — map both to "no"
+    const norm = lang === 'nb' || lang === 'nn' ? 'no' : lang
+    const detected = supported.includes(norm as Locale) ? (norm as Locale) : 'en'
     setLocale(detected)
     setPhoneCountry(getCountryForLocale(detected))
   }, [])
