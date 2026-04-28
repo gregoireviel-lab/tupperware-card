@@ -192,7 +192,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
           }}
         >
           <div style={{ transform: 'rotate(-90deg)', whiteSpace: 'nowrap' }}>
-            <Wordmark width={620} theme={theme} />
+            <Wordmark width={height * 0.78} theme={theme} />
           </div>
         </div>
       )
