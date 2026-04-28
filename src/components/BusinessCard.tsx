@@ -16,7 +16,7 @@ const Wordmark = ({ width, theme }: { width: number; theme: Theme }) => {
       width={width}
       height={width / WORDMARK_ASPECT}
       crossOrigin="anonymous"
-      style={{ display: 'block', width: `${width}px`, height: `${width / WORDMARK_ASPECT}px` }}
+      style={{ display: 'block', width: `${width}px`, height: `${width / WORDMARK_ASPECT}px`, maxWidth: 'none' }}
     />
   )
 }
