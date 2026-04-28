@@ -301,15 +301,17 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
 
           {/* Middle row: photo+name+contacts left, QR right — both vertically centered */}
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '28px', minHeight: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flex: 1, minWidth: 0 }}>
-              {photoUrl && <Photo url={photoUrl} size={130} borderColor={photoBorder} />}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', minWidth: 0 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1, minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px', minWidth: 0 }}>
+                {photoUrl && <Photo url={photoUrl} size={130} borderColor={photoBorder} />}
                 <NameBlock size={32} />
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              </div>
+              {(phone || email) && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', minWidth: 0 }}>
                   {phone && <ContactRow icon={<PhoneIcon color={tk.text} />} text={phone} />}
                   {email && <ContactRow icon={<MailIcon color={tk.text} />} text={email} />}
                 </div>
-              </div>
+              )}
             </div>
             <div style={{ flexShrink: 0 }}>
               <QRBlock link={affiliateLink} size={170} qrBg={tk.qrBg} qrFg={tk.qrFg} soft={tk.textSoft} />
