@@ -2,8 +2,24 @@
 
 import React, { forwardRef } from 'react'
 import { QRCodeSVG } from 'qrcode.react'
-import { TupperwareWordmark } from '@/components/logos/TupperwareWordmark'
 import type { Translation } from '@/lib/translations'
+
+// Real Tupperware brand wordmark PNG (trimmed to content bbox).
+// Aspect ratio 3003:520 ≈ 5.776 — height auto-derived from width.
+const WORDMARK_ASPECT = 3003 / 520
+const Wordmark = ({ width, theme }: { width: number; theme: Theme }) => {
+  const src = theme === 'mint' ? '/tupperware-wordmark-green.png' : '/tupperware-wordmark-white.png'
+  return (
+    <img
+      src={src}
+      alt="Tupperware"
+      width={width}
+      height={width / WORDMARK_ASPECT}
+      crossOrigin="anonymous"
+      style={{ display: 'block', width: `${width}px`, height: `${width / WORDMARK_ASPECT}px` }}
+    />
+  )
+}
 
 export type Orientation = 'landscape' | 'portrait'
 export type Side = 'front' | 'back'
@@ -176,7 +192,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
           }}
         >
           <div style={{ transform: 'rotate(-90deg)', whiteSpace: 'nowrap' }}>
-            <TupperwareWordmark color={tk.text} width={620} registered={false} />
+            <Wordmark width={620} theme={theme} />
           </div>
         </div>
       )
@@ -202,7 +218,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
           justifyContent: 'center',
         }}
       >
-        <TupperwareWordmark color={tk.text} width={width * 0.78} registered={false} />
+        <Wordmark width={width * 0.78} theme={theme} />
       </div>
     )
   }
@@ -249,7 +265,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
       {isPortrait ? (
         // ─── PORTRAIT VERSO (info side) — logo top, info+QR vertically centered, disclaimer bottom ───
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '24px 28px 18px 28px', boxSizing: 'border-box' }}>
-          <TupperwareWordmark color={tk.text} width={310} registered={false} />
+          <Wordmark width={310} theme={theme} />
 
           {/* Centered block: photo, name, contacts, QR */}
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '18px', width: '100%' }}>
@@ -281,7 +297,7 @@ const BusinessCard = forwardRef<HTMLDivElement, CardProps>(function BusinessCard
         // ─── LANDSCAPE — logo top-left, photo+name+contacts vertically centered with QR ───
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '22px 32px 16px 32px', boxSizing: 'border-box' }}>
           {/* Top row: logo top-left */}
-          <TupperwareWordmark color={tk.text} width={290} registered={false} />
+          <Wordmark width={290} theme={theme} />
 
           {/* Middle row: photo+name+contacts left, QR right — both vertically centered */}
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '28px', minHeight: 0 }}>
