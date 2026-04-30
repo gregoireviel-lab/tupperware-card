@@ -1,4 +1,4 @@
-export type Locale = 'fr' | 'it' | 'de' | 'en' | 'pl' | 'da' | 'sv' | 'no' | 'fi'
+export type Locale = 'fr' | 'it' | 'de' | 'en' | 'pl' | 'da' | 'sv' | 'no' | 'fi' | 'nl'
 
 export interface Translation {
   ui: {
@@ -438,6 +438,50 @@ export const translations: Record<Locale, Translation> = {
         'Itsenäinen Tupperware-konsultti — suoramyynti',
       brand: 'Brand',
       subtitle: 'OOBO SA, TUPPERWARE-tuotteiden valtuutettu jakelija',
+    },
+  },
+  nl: {
+    ui: {
+      title: 'Tupperware Visitekaartjes-generator',
+      preview: 'Voorbeeld',
+      download: 'PDF downloaden',
+      print: 'A4-vel afdrukken (8 kaartjes)',
+      langSwitcher: 'Taal',
+      pageDisclaimer:
+        'Deze visitekaartjes worden uitsluitend gegenereerd voor erkende Tupperware OOBO SA-verkoopsters in het kader van hun activiteit. Uitsluitend voor persoonlijk gebruik — elke reproductie of verspreiding aan onbevoegde derden is verboden.',
+    },
+    form: {
+      id: 'Consulentennummer',
+      idHint: 'Je Tupperware-consulentennummer (5 of 6 cijfers) — wordt gebruikt om de affiliatielink in de QR-code te genereren',
+      firstName: 'Voornaam',
+      lastName: 'Achternaam',
+      phone: 'Telefoon',
+      email: 'E-mail',
+      optional: 'optioneel',
+      affiliateLink: 'Affiliatielink',
+      photo: 'Foto',
+      uploadPhoto: 'Foto uploaden',
+      orientation: 'Formaat',
+      landscape: 'Liggend',
+      portrait: 'Staand',
+      theme: 'Kleur',
+      themeTeal: 'Donkergroen',
+      themeMint: 'Lichtgroen',
+      flipFront: 'Voorkant tonen',
+      flipBack: 'Achterkant tonen',
+      testQR: 'QR-link testen',
+    },
+    card: {
+      id: 'ID :',
+      firstName: 'Voornaam :',
+      lastName: 'Achternaam :',
+      issuedOn: 'Uitgegeven op :',
+      expiresOn: 'Vervalt op :',
+      companyDesc: 'OOBO SA, erkende distributeur van TUPPERWARE-producten',
+      legalText:
+        'Onafhankelijke Tupperware-consulent — directe verkoop',
+      brand: 'Brand',
+      subtitle: 'OOBO SA, erkende distributeur van TUPPERWARE-producten',
     },
   },
 }

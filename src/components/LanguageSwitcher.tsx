@@ -17,6 +17,7 @@ const LOCALES: { code: Locale; label: string; flag: string }[] = [
   { code: 'sv', label: 'SV', flag: '🇸🇪' },
   { code: 'no', label: 'NO', flag: '🇳🇴' },
   { code: 'fi', label: 'FI', flag: '🇫🇮' },
+  { code: 'nl', label: 'NL', flag: '🇳🇱' },
 ]
 
 export default function LanguageSwitcher({ locale, onChange }: LanguageSwitcherProps) {

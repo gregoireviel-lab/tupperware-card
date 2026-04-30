@@ -67,6 +67,7 @@ export function getCountryForLocale(locale: string): Country {
     sv: 'SE',
     no: 'NO',
     fi: 'FI',
+    nl: 'NL',
   }
   const code = map[locale]
   return COUNTRIES.find((c) => c.code === code) ?? DEFAULT_COUNTRY
