@@ -21,6 +21,17 @@ export function isValidEmail(s: string): boolean {
   return EMAIL_RE.test(s)
 }
 
+export function isValidAffiliateUrl(s: string): boolean {
+  const trimmed = s.trim()
+  if (!trimmed) return false
+  try {
+    const u = new URL(trimmed)
+    return u.protocol === 'http:' || u.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
 function capitalize(p: string): string {
   if (!p) return p
   return p.charAt(0).toLocaleUpperCase() + p.slice(1).toLocaleLowerCase()

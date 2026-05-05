@@ -7,11 +7,11 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 import PrintSheet from '@/components/PrintSheet'
 import { translations, type Locale } from '@/lib/translations'
 import { downloadCardAsPDF } from '@/lib/downloadCard'
-import { DEFAULT_COUNTRY, buildPhoneDisplay, getCountryForLocale, isValidEmail, type Country } from '@/lib/format'
+import { DEFAULT_COUNTRY, buildPhoneDisplay, getCountryForLocale, isValidAffiliateUrl, isValidEmail, type Country } from '@/lib/format'
 
 export default function Page() {
   const [locale, setLocale] = useState<Locale>('it')
-  const [id, setId] = useState('')
+  const [affiliateUrl, setAffiliateUrl] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [phoneCountry, setPhoneCountry] = useState<Country>(DEFAULT_COUNTRY)
@@ -23,7 +23,7 @@ export default function Page() {
   const [side, setSide] = useState<Side>('front')
   const [isDownloading, setIsDownloading] = useState(false)
 
-  const affiliateLink = id.length >= 5 && id.length <= 6 ? `https://tupperware-eu.com/?ref=${id}` : ''
+  const affiliateLink = isValidAffiliateUrl(affiliateUrl) ? affiliateUrl.trim() : ''
 
   useEffect(() => {
     const lang = navigator.language.split('-')[0].toLowerCase()
@@ -41,7 +41,7 @@ export default function Page() {
 
   function handleChange(field: string, value: string) {
     switch (field) {
-      case 'id': setId(value); break
+      case 'affiliateUrl': setAffiliateUrl(value); break
       case 'firstName': setFirstName(value); break
       case 'lastName': setLastName(value); break
       case 'phoneLocal': setPhoneLocal(value); break
@@ -110,7 +110,7 @@ export default function Page() {
             <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-6">
               <h2 className="text-base font-semibold text-zinc-700 mb-5">Informations</h2>
               <CardForm
-                id={id}
+                affiliateUrl={affiliateUrl}
                 firstName={firstName}
                 lastName={lastName}
                 phoneCountry={phoneCountry}

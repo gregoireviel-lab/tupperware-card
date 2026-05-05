@@ -10,8 +10,11 @@ export interface Translation {
     pageDisclaimer: string
   }
   form: {
-    id: string
-    idHint: string
+    affiliateUrlLabel: string
+    affiliateUrlHint: string
+    affiliateUrlInvalid: string
+    changeNoticeTitle: string
+    changeNotice: string
     firstName: string
     lastName: string
     phone: string
@@ -55,8 +58,11 @@ export const translations: Record<Locale, Translation> = {
         'Ces cartes de visite sont générées exclusivement pour les vendeuses agréées Tupperware OOBO SA dans le cadre de leur activité. Usage personnel uniquement — toute reproduction ou distribution à des tiers non autorisés est interdite.',
     },
     form: {
-      id: 'Numéro consultant',
-      idHint: 'Votre numéro de consultant·e Tupperware (5 ou 6 chiffres) — utilisé pour générer le lien d\'affiliation du QR code',
+      affiliateUrlLabel: 'Lien d\'affiliation',
+      affiliateUrlHint: 'Colle l\'URL complète de ton lien personnel (ex : https://tupperware-eu.com/?ref=96541)',
+      affiliateUrlInvalid: 'URL invalide — elle doit commencer par https://',
+      changeNoticeTitle: 'Nouveauté.',
+      changeNotice: 'On ne demande plus juste ton numéro mais l\'URL complète, pour que les consultantes des pays nordiques (qui ont un lien avec leur nom au lieu d\'un numéro) puissent aussi utiliser l\'outil.',
       firstName: 'Prénom',
       lastName: 'Nom',
       phone: 'Téléphone',
@@ -99,8 +105,11 @@ export const translations: Record<Locale, Translation> = {
         'Queste tessere sono generate esclusivamente per le venditrici autorizzate Tupperware OOBO SA nell\'ambito della loro attività. Solo per uso personale — qualsiasi riproduzione o distribuzione a terzi non autorizzati è vietata.',
     },
     form: {
-      id: 'Numero consulente',
-      idHint: 'Il tuo numero di consulente Tupperware (5 o 6 cifre) — usato per generare il link affiliato del QR',
+      affiliateUrlLabel: 'Link affiliato',
+      affiliateUrlHint: 'Incolla l\'URL completo del tuo link personale (es. https://tupperware-eu.com/?ref=96541)',
+      affiliateUrlInvalid: 'URL non valido — deve iniziare con https://',
+      changeNoticeTitle: 'Novità.',
+      changeNotice: 'Non chiediamo più solo il tuo numero ma l\'URL completo, in modo che anche le consulenti dei paesi nordici (che hanno un link con il loro nome invece di un numero) possano usare lo strumento.',
       firstName: 'Nome',
       lastName: 'Cognome',
       phone: 'Telefono',
@@ -143,8 +152,11 @@ export const translations: Record<Locale, Translation> = {
         'Diese Visitenkarten werden ausschließlich für autorisierte Tupperware OOBO SA-Verkäuferinnen im Rahmen ihrer Tätigkeit erstellt. Nur für den persönlichen Gebrauch — jegliche Reproduktion oder Weitergabe an unbefugte Dritte ist untersagt.',
     },
     form: {
-      id: 'Beraternummer',
-      idHint: 'Ihre Tupperware-Beraternummer (5 oder 6 Ziffern) — wird zur Generierung des QR-Affiliate-Links verwendet',
+      affiliateUrlLabel: 'Affiliate-Link',
+      affiliateUrlHint: 'Füge die vollständige URL deines persönlichen Links ein (z. B. https://tupperware-eu.com/?ref=96541)',
+      affiliateUrlInvalid: 'Ungültige URL — sie muss mit https:// beginnen',
+      changeNoticeTitle: 'Neu.',
+      changeNotice: 'Wir fragen nicht mehr nur deine Nummer, sondern die vollständige URL ab — damit auch Beraterinnen aus den nordischen Ländern (die einen Link mit ihrem Namen statt einer Nummer haben) das Tool nutzen können.',
       firstName: 'Vorname',
       lastName: 'Nachname',
       phone: 'Telefon',
@@ -187,8 +199,11 @@ export const translations: Record<Locale, Translation> = {
         'These business cards are generated exclusively for authorised Tupperware OOBO SA sellers in the course of their activity. Personal use only — any reproduction or distribution to unauthorised third parties is prohibited.',
     },
     form: {
-      id: 'Consultant Number',
-      idHint: 'Your Tupperware consultant number (5 or 6 digits) — used to generate the affiliate link in the QR code',
+      affiliateUrlLabel: 'Affiliate Link',
+      affiliateUrlHint: 'Paste the full URL of your personal link (e.g. https://tupperware-eu.com/?ref=96541)',
+      affiliateUrlInvalid: 'Invalid URL — must start with https://',
+      changeNoticeTitle: 'New.',
+      changeNotice: 'We no longer ask just for your number but for the full URL, so consultants from the Nordic countries (who get a link with their name instead of a number) can also use the tool.',
       firstName: 'First Name',
       lastName: 'Last Name',
       phone: 'Phone',
@@ -231,8 +246,11 @@ export const translations: Record<Locale, Translation> = {
         'Te wizytówki są generowane wyłącznie dla autoryzowanych sprzedawców Tupperware OOBO SA w ramach ich działalności. Tylko do użytku osobistego — wszelkie powielanie lub dystrybucja osobom trzecim bez upoważnienia jest zabronione.',
     },
     form: {
-      id: 'Numer konsultanta',
-      idHint: 'Twój numer konsultanta Tupperware (5 lub 6 cyfr) — używany do generowania linku partnerskiego w kodzie QR',
+      affiliateUrlLabel: 'Link partnerski',
+      affiliateUrlHint: 'Wklej pełny adres URL swojego osobistego linku (np. https://tupperware-eu.com/?ref=96541)',
+      affiliateUrlInvalid: 'Nieprawidłowy URL — musi zaczynać się od https://',
+      changeNoticeTitle: 'Nowość.',
+      changeNotice: 'Nie pytamy już tylko o numer, ale o pełny adres URL — dzięki temu konsultantki z krajów nordyckich (które mają link z imieniem zamiast numeru) też mogą korzystać z narzędzia.',
       firstName: 'Imię',
       lastName: 'Nazwisko',
       phone: 'Telefon',
@@ -275,8 +293,11 @@ export const translations: Record<Locale, Translation> = {
         'Disse visitkort er udelukkende genereret til autoriserede Tupperware OOBO SA-konsulenter i forbindelse med deres aktivitet. Kun til personlig brug — enhver reproduktion eller distribution til uautoriserede tredjeparter er forbudt.',
     },
     form: {
-      id: 'Konsulentnummer',
-      idHint: 'Dit Tupperware-konsulentnummer (5 eller 6 cifre) — bruges til at generere partnerlinket i QR-koden',
+      affiliateUrlLabel: 'Partnerlink',
+      affiliateUrlHint: 'Indsæt den fulde URL til dit personlige link (f.eks. https://tupperware-eu.com/?ref=96541 eller https://tupperware.dk/dit-navn)',
+      affiliateUrlInvalid: 'Ugyldig URL — skal starte med https://',
+      changeNoticeTitle: 'Nyt.',
+      changeNotice: 'Vi spørger ikke længere kun om dit nummer, men om hele URL\'en — så konsulenter fra de nordiske lande (der har et link med deres navn i stedet for et nummer) også kan bruge værktøjet.',
       firstName: 'Fornavn',
       lastName: 'Efternavn',
       phone: 'Telefon',
@@ -319,8 +340,11 @@ export const translations: Record<Locale, Translation> = {
         'Dessa visitkort genereras uteslutande för auktoriserade Tupperware OOBO SA-konsulenter inom ramen för deras verksamhet. Endast för personligt bruk — all reproduktion eller distribution till obehöriga tredje parter är förbjuden.',
     },
     form: {
-      id: 'Konsultnummer',
-      idHint: 'Ditt Tupperware-konsultnummer (5 eller 6 siffror) — används för att generera partnerlänken i QR-koden',
+      affiliateUrlLabel: 'Partnerlänk',
+      affiliateUrlHint: 'Klistra in hela URL:en till din personliga länk (t.ex. https://tupperware-eu.com/?ref=96541 eller https://tupperware.se/ditt-namn)',
+      affiliateUrlInvalid: 'Ogiltig URL — måste börja med https://',
+      changeNoticeTitle: 'Nyhet.',
+      changeNotice: 'Vi frågar inte längre bara efter ditt nummer utan efter hela URL:en — så att konsulenter från de nordiska länderna (som har en länk med sitt namn istället för ett nummer) också kan använda verktyget.',
       firstName: 'Förnamn',
       lastName: 'Efternamn',
       phone: 'Telefon',
@@ -363,8 +387,11 @@ export const translations: Record<Locale, Translation> = {
         'Disse visittkortene genereres utelukkende for autoriserte Tupperware OOBO SA-konsulenter i forbindelse med deres virksomhet. Kun til personlig bruk — enhver reproduksjon eller distribusjon til uautoriserte tredjeparter er forbudt.',
     },
     form: {
-      id: 'Konsulentnummer',
-      idHint: 'Ditt Tupperware-konsulentnummer (5 eller 6 sifre) — brukes til å generere partnerlenken i QR-koden',
+      affiliateUrlLabel: 'Partnerlenke',
+      affiliateUrlHint: 'Lim inn hele URL-en til din personlige lenke (f.eks. https://tupperware-eu.com/?ref=96541 eller https://tupperware.no/ditt-navn)',
+      affiliateUrlInvalid: 'Ugyldig URL — må starte med https://',
+      changeNoticeTitle: 'Nytt.',
+      changeNotice: 'Vi spør ikke lenger bare om nummeret ditt, men om hele URL-en — slik at konsulenter fra de nordiske landene (som har en lenke med navnet sitt i stedet for et nummer) også kan bruke verktøyet.',
       firstName: 'Fornavn',
       lastName: 'Etternavn',
       phone: 'Telefon',
@@ -407,8 +434,11 @@ export const translations: Record<Locale, Translation> = {
         'Nämä käyntikortit on luotu yksinomaan valtuutetuille Tupperware OOBO SA -konsulteille heidän toimintansa puitteissa. Vain henkilökohtaiseen käyttöön — kaikki kopiointi tai jakelu valtuuttamattomille kolmansille osapuolille on kielletty.',
     },
     form: {
-      id: 'Konsulttinumero',
-      idHint: 'Tupperware-konsulttinumerosi (5 tai 6 numeroa) — käytetään QR-koodin kumppanilinkin luomiseen',
+      affiliateUrlLabel: 'Kumppanilinkki',
+      affiliateUrlHint: 'Liitä henkilökohtaisen linkkisi koko URL-osoite (esim. https://tupperware-eu.com/?ref=96541 tai https://tupperware.fi/nimesi)',
+      affiliateUrlInvalid: 'Virheellinen URL — sen on alettava https://',
+      changeNoticeTitle: 'Uutta.',
+      changeNotice: 'Emme kysy enää pelkkää numeroasi vaan koko URL-osoitetta — näin myös pohjoismaiden konsultit (joilla on linkki nimellään numeron sijaan) voivat käyttää työkalua.',
       firstName: 'Etunimi',
       lastName: 'Sukunimi',
       phone: 'Puhelin',
@@ -451,8 +481,11 @@ export const translations: Record<Locale, Translation> = {
         'Deze visitekaartjes worden uitsluitend gegenereerd voor erkende Tupperware OOBO SA-verkoopsters in het kader van hun activiteit. Uitsluitend voor persoonlijk gebruik — elke reproductie of verspreiding aan onbevoegde derden is verboden.',
     },
     form: {
-      id: 'Consulentennummer',
-      idHint: 'Je Tupperware-consulentennummer (5 of 6 cijfers) — wordt gebruikt om de affiliatielink in de QR-code te genereren',
+      affiliateUrlLabel: 'Affiliatielink',
+      affiliateUrlHint: 'Plak de volledige URL van je persoonlijke link (bv. https://tupperware-eu.com/?ref=96541)',
+      affiliateUrlInvalid: 'Ongeldige URL — moet beginnen met https://',
+      changeNoticeTitle: 'Nieuw.',
+      changeNotice: 'We vragen niet meer alleen om je nummer, maar om de volledige URL — zo kunnen ook consulenten uit de Noordse landen (die een link met hun naam krijgen in plaats van een nummer) de tool gebruiken.',
       firstName: 'Voornaam',
       lastName: 'Achternaam',
       phone: 'Telefoon',

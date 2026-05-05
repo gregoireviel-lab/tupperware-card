@@ -8,13 +8,14 @@ import {
   formatLastName,
   formatEmail,
   formatPhoneLocal,
+  isValidAffiliateUrl,
   isValidEmail,
   COUNTRIES,
   type Country,
 } from '@/lib/format'
 
 interface CardFormProps {
-  id: string
+  affiliateUrl: string
   firstName: string
   lastName: string
   phoneCountry: Country
@@ -32,7 +33,7 @@ interface CardFormProps {
 }
 
 export default function CardForm({
-  id,
+  affiliateUrl,
   firstName,
   lastName,
   phoneCountry,
@@ -50,7 +51,7 @@ export default function CardForm({
 }: CardFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const idIsValid = id === '' || /^\d{5,6}$/.test(id)
+  const urlIsValid = affiliateUrl.trim() === '' || isValidAffiliateUrl(affiliateUrl)
   const emailIsValid = email === '' || isValidEmail(email)
 
   function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -124,23 +125,27 @@ export default function CardForm({
         </div>
       </div>
 
-      {/* ID */}
+      {/* Affiliate URL */}
       <div>
-        <label className={labelClass}>{t.form.id}</label>
-        <p className="text-xs text-zinc-500 mb-1.5 leading-snug">{t.form.idHint}</p>
+        <div className="mb-2 rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-xs text-teal-900 leading-snug">
+          <span className="font-semibold">{t.form.changeNoticeTitle}</span> {t.form.changeNotice}
+        </div>
+        <label className={labelClass}>{t.form.affiliateUrlLabel}</label>
+        <p className="text-xs text-zinc-500 mb-1.5 leading-snug">{t.form.affiliateUrlHint}</p>
         <input
-          type="text"
-          inputMode="numeric"
-          className={`${inputClass} ${!idIsValid ? 'border-red-400 focus:ring-red-400' : ''}`}
-          value={id}
-          maxLength={6}
-          onChange={(e) => onChange('id', e.target.value.replace(/\D/g, '').slice(0, 6))}
-          placeholder="96541"
+          type="url"
+          inputMode="url"
+          autoComplete="off"
+          spellCheck={false}
+          className={`${inputClass} ${!urlIsValid ? 'border-red-400 focus:ring-red-400' : ''}`}
+          value={affiliateUrl}
+          onChange={(e) => onChange('affiliateUrl', e.target.value)}
+          placeholder="https://tupperware-eu.com/?ref=96541"
         />
-        {id.length > 0 && id.length < 5 && (
-          <p className="text-xs text-red-500 mt-1">{id.length}/6 — min. 5 digits</p>
+        {!urlIsValid && (
+          <p className="text-xs text-red-500 mt-1">{t.form.affiliateUrlInvalid}</p>
         )}
-        {id.length >= 5 && id.length <= 6 && affiliateLink && (
+        {urlIsValid && affiliateLink && (
           <p className="text-xs text-zinc-400 mt-1 font-mono break-all">{affiliateLink}</p>
         )}
       </div>
