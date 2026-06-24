@@ -465,7 +465,7 @@ export const translations: Record<Locale, Translation> = {
       expiresOn: 'Voimassa :',
       companyDesc: 'OOBO SA, TUPPERWARE-tuotteiden valtuutettu jakelija',
       legalText:
-        'Itsenäinen Tupperware-konsultti — suoramyynti',
+        'Itsenäinen Tupperware-konsulentti — suoramyynti',
       brand: 'Brand',
       subtitle: 'OOBO SA, TUPPERWARE-tuotteiden valtuutettu jakelija',
     },
