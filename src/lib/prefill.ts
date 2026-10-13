@@ -41,8 +41,9 @@ export function normalizeLocale(raw: string | null): Locale | undefined {
   return SUPPORTED_LOCALES.includes(norm as Locale) ? (norm as Locale) : undefined
 }
 
-export function parsePrefill(search: string): Prefill {
-  const p = new URLSearchParams(search)
+// `fragment` is location.hash without the leading '#'
+export function parsePrefill(fragment: string): Prefill {
+  const p = new URLSearchParams(fragment)
   const out: Prefill = {}
 
   const locale = normalizeLocale(p.get('lang'))

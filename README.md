@@ -8,6 +8,8 @@ The generator can be opened already filled, e.g. from a "My business card" butto
 All parameters are optional. Values are read client-side only (nothing is stored or sent anywhere),
 treated as untrusted text, and every field stays editable. Invalid or unknown parameters are silently ignored.
 
+Parameters go in the URL **fragment** (after `#`), not the query string, so personal data never reaches the server or Vercel logs. The query string is ignored. After applying the prefill the app clears the fragment from the address bar and history (`history.replaceState`), so a refresh loses the prefill: the portal button simply regenerates the link.
+
 | Param | Meaning | Rules |
 |---|---|---|
 | `first` | First name | max 60 chars, auto-capitalised |
@@ -21,8 +23,8 @@ treated as untrusted text, and every field stays editable. Invalid or unknown pa
 Example:
 
 ```
-https://tupperware-card.vercel.app/?first=Marie&last=Dupont&phone=%2B32475123456&email=marie.dupont%40example.com&affiliate=https%3A%2F%2Fexample.com%2Fshop%2Fmarie&lang=fr
+https://tupperware-card.vercel.app/#first=Marie&last=Dupont&phone=%2B32475123456&email=marie.dupont%40example.com&affiliate=https%3A%2F%2Fexample.com%2Fshop%2Fmarie&lang=fr
 ```
 
-Always URL-encode values (`encodeURIComponent`); a `+` in a phone must be `%2B`.
+Build the fragment with `new URLSearchParams({...}).toString()` or URL-encode each value (`encodeURIComponent`); a `+` in a phone must be `%2B`.
 The photo cannot be prefilled (the seller uploads it). The card has no job-title field, so there is no `role` parameter.

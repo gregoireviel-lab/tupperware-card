@@ -32,8 +32,8 @@ export default function Page() {
     // Norwegian browsers report "nb" or "nn" — map both to "no"
     const norm = lang === 'nb' || lang === 'nn' ? 'no' : lang
     const detected = supported.includes(norm as Locale) ? (norm as Locale) : 'en'
-    // Optional prefill from URL query (e.g. link from the seller portal); client-side only, never stored
-    const pre = parsePrefill(window.location.search)
+    // Optional prefill from URL fragment (never sent to the server) (e.g. link from the seller portal); client-side only, never stored
+    const pre = parsePrefill(window.location.hash.slice(1))
     const finalLocale = pre.locale ?? detected
     setLocale(finalLocale)
     setPhoneCountry(pre.phoneCountry ?? getCountryForLocale(finalLocale))
@@ -42,6 +42,8 @@ export default function Page() {
     if (pre.phoneLocal) setPhoneLocal(pre.phoneLocal)
     if (pre.email) setEmail(pre.email)
     if (pre.affiliateUrl) setAffiliateUrl(pre.affiliateUrl)
+    // Remove the fragment (personal data) from address bar and history
+    if (window.location.hash) window.history.replaceState(null, '', window.location.pathname)
   }, [])
 
   const cardFrontRef = useRef<HTMLDivElement>(null)
