@@ -7,6 +7,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 import PrintSheet from '@/components/PrintSheet'
 import { translations, type Locale } from '@/lib/translations'
 import { downloadCardAsPDF } from '@/lib/downloadCard'
+import { parsePrefill } from '@/lib/prefill'
 import { DEFAULT_COUNTRY, buildPhoneDisplay, getCountryForLocale, isValidAffiliateUrl, isValidEmail, type Country } from '@/lib/format'
 
 export default function Page() {
@@ -31,8 +32,16 @@ export default function Page() {
     // Norwegian browsers report "nb" or "nn" — map both to "no"
     const norm = lang === 'nb' || lang === 'nn' ? 'no' : lang
     const detected = supported.includes(norm as Locale) ? (norm as Locale) : 'en'
-    setLocale(detected)
-    setPhoneCountry(getCountryForLocale(detected))
+    // Optional prefill from URL query (e.g. link from the seller portal); client-side only, never stored
+    const pre = parsePrefill(window.location.search)
+    const finalLocale = pre.locale ?? detected
+    setLocale(finalLocale)
+    setPhoneCountry(pre.phoneCountry ?? getCountryForLocale(finalLocale))
+    if (pre.firstName) setFirstName(pre.firstName)
+    if (pre.lastName) setLastName(pre.lastName)
+    if (pre.phoneLocal) setPhoneLocal(pre.phoneLocal)
+    if (pre.email) setEmail(pre.email)
+    if (pre.affiliateUrl) setAffiliateUrl(pre.affiliateUrl)
   }, [])
 
   const cardFrontRef = useRef<HTMLDivElement>(null)
