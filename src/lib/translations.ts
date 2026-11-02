@@ -55,7 +55,7 @@ export const translations: Record<Locale, Translation> = {
       print: 'Imprimer la feuille A4 (8 cartes)',
       langSwitcher: 'Langue',
       pageDisclaimer:
-        'Ces cartes de visite sont générées exclusivement pour les vendeuses agréées Tupperware OOBO SA dans le cadre de leur activité. Usage personnel uniquement — toute reproduction ou distribution à des tiers non autorisés est interdite.',
+        'Ces cartes de visite sont générées exclusivement pour les membres agréés du réseau de vente Tupperware OOBO SA dans le cadre de leur activité. Usage personnel uniquement — toute reproduction ou distribution à des tiers non autorisés est interdite.',
     },
     form: {
       affiliateUrlLabel: 'Lien d\'affiliation',
@@ -102,7 +102,7 @@ export const translations: Record<Locale, Translation> = {
       print: 'Stampa foglio A4 (8 carte)',
       langSwitcher: 'Lingua',
       pageDisclaimer:
-        'Queste tessere sono generate esclusivamente per le venditrici autorizzate Tupperware OOBO SA nell\'ambito della loro attività. Solo per uso personale — qualsiasi riproduzione o distribuzione a terzi non autorizzati è vietata.',
+        'Queste tessere sono generate esclusivamente per i membri autorizzati della rete di vendita Tupperware OOBO SA nell\'ambito della loro attività. Solo per uso personale — qualsiasi riproduzione o distribuzione a terzi non autorizzati è vietata.',
     },
     form: {
       affiliateUrlLabel: 'Link affiliato',
@@ -149,14 +149,14 @@ export const translations: Record<Locale, Translation> = {
       print: 'A4-Blatt drucken (8 Karten)',
       langSwitcher: 'Sprache',
       pageDisclaimer:
-        'Diese Visitenkarten werden ausschließlich für autorisierte Tupperware OOBO SA-Verkäuferinnen im Rahmen ihrer Tätigkeit erstellt. Nur für den persönlichen Gebrauch — jegliche Reproduktion oder Weitergabe an unbefugte Dritte ist untersagt.',
+        'Diese Visitenkarten werden ausschließlich für autorisierte Tupperware OOBO SA-Berater·innen im Rahmen ihrer Tätigkeit erstellt. Nur für den persönlichen Gebrauch — jegliche Reproduktion oder Weitergabe an unbefugte Dritte ist untersagt.',
     },
     form: {
       affiliateUrlLabel: 'Affiliate-Link',
       affiliateUrlHint: 'Füge die vollständige URL deines persönlichen Links ein (z. B. https://tupperware-eu.com/?ref=96541)',
       affiliateUrlInvalid: 'Ungültige URL — sie muss mit https:// beginnen',
       changeNoticeTitle: 'Neu.',
-      changeNotice: 'Wir fragen nicht mehr nur deine Nummer, sondern die vollständige URL ab — damit auch Beraterinnen aus den nordischen Ländern (die einen Link mit ihrem Namen statt einer Nummer haben) das Tool nutzen können.',
+      changeNotice: 'Wir fragen nicht mehr nur deine Nummer, sondern die vollständige URL ab — damit auch Berater·innen aus den nordischen Ländern (die einen Link mit ihrem Namen statt einer Nummer haben) das Tool nutzen können.',
       firstName: 'Vorname',
       lastName: 'Nachname',
       phone: 'Telefon',
@@ -250,7 +250,7 @@ export const translations: Record<Locale, Translation> = {
       affiliateUrlHint: 'Wklej pełny adres URL swojego osobistego linku (np. https://tupperware-eu.com/?ref=96541)',
       affiliateUrlInvalid: 'Nieprawidłowy URL — musi zaczynać się od https://',
       changeNoticeTitle: 'Nowość.',
-      changeNotice: 'Nie pytamy już tylko o numer, ale o pełny adres URL — dzięki temu konsultantki z krajów nordyckich (które mają link z imieniem zamiast numeru) też mogą korzystać z narzędzia.',
+      changeNotice: 'Nie pytamy już tylko o numer, ale o pełny adres URL — dzięki temu konsultanci z krajów nordyckich (którzy mają link z imieniem zamiast numeru) też mogą korzystać z narzędzia.',
       firstName: 'Imię',
       lastName: 'Nazwisko',
       phone: 'Telefon',
@@ -478,7 +478,7 @@ export const translations: Record<Locale, Translation> = {
       print: 'A4-vel afdrukken (8 kaartjes)',
       langSwitcher: 'Taal',
       pageDisclaimer:
-        'Deze visitekaartjes worden uitsluitend gegenereerd voor erkende Tupperware OOBO SA-verkoopsters in het kader van hun activiteit. Uitsluitend voor persoonlijk gebruik — elke reproductie of verspreiding aan onbevoegde derden is verboden.',
+        'Deze visitekaartjes worden uitsluitend gegenereerd voor erkende Tupperware OOBO SA-verkopers in het kader van hun activiteit. Uitsluitend voor persoonlijk gebruik — elke reproductie of verspreiding aan onbevoegde derden is verboden.',
     },
     form: {
       affiliateUrlLabel: 'Affiliatielink',
